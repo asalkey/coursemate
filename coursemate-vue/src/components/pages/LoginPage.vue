@@ -16,7 +16,7 @@
 
             <div class="col-md-6 p-0 bg-white h-md-100 loginarea">
                 <div class="d-md-flex align-items-center h-md-100 p-5 justify-content-center">
-                  <form class="needs-validation" novalidate="">
+                  <form class="needs-validation" novalidate="" @submit.prevent="login">
                     <div class="mb-3">
                       <label for="email">Email</label>
                       <input type="email" class="form-control" id="email" placeholder="you@example.com">
@@ -26,7 +26,7 @@
 
                     <div class="mb-3">
                       <label for="address">Password</label>
-                      <input type="password" class="form-control" id="address" required="">
+                      <input type="password" class="form-control" id="password" required="">
                       <div class="invalid-feedback">
                       </div>
                     </div>
@@ -39,10 +39,16 @@
 </template>
 
 <script>
+
+import axios from 'axios';
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = 'http://localhost:8000';
+
 export default {
     name: 'LoginPage',
-    data: function (){
-        return{
+    methods:{
+        login: function(){
+            console.log(this);
         }
     }
 }
