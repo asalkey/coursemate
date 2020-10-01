@@ -16,6 +16,13 @@ class CreateStudyGroupsTable extends Migration
         Schema::create('study_groups', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('description');
+            $table->string('notes');
+            $table->date('date');
+            $table->time('time');
+            $table->boolean('remote');
+            $table->string('link');
+            $table->string('location');
         });
     }
 
