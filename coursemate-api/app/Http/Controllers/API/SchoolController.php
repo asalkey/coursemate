@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\School;
 
 class SchoolController extends Controller
 {
@@ -14,7 +15,7 @@ class SchoolController extends Controller
      */
     public function index()
     {
-        //
+        return School::all();
     }
 
     /**
@@ -25,7 +26,7 @@ class SchoolController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return School::create($request->all());
     }
 
     /**
@@ -36,7 +37,7 @@ class SchoolController extends Controller
      */
     public function show($id)
     {
-        //
+        return School::find($id);
     }
 
     /**
@@ -48,7 +49,10 @@ class SchoolController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $school = School::findOrFail($id);
+        $school->update($request->all());
+
+        return $school;
     }
 
     /**
@@ -59,6 +63,9 @@ class SchoolController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $school = School::findOrFail($id);
+        $school->delete($request->all());
+
+        return $school;
     }
 }
