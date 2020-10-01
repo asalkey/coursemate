@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\StudyGroup;
 
 class StudyGroupController extends Controller
 {
@@ -14,7 +15,7 @@ class StudyGroupController extends Controller
      */
     public function index()
     {
-        //
+        return StudyGroup::all();
     }
 
     /**
@@ -25,7 +26,7 @@ class StudyGroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return StudyGroup::create($request->all());
     }
 
     /**
@@ -36,7 +37,7 @@ class StudyGroupController extends Controller
      */
     public function show($id)
     {
-        //
+        return StudyGroup::find($id);
     }
 
     /**
@@ -48,7 +49,10 @@ class StudyGroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $studyGroup = StudyGroup::findOrFail($id);
+        $studyGroup->update($request->all());
+
+        return $studyGroup;
     }
 
     /**
@@ -59,6 +63,9 @@ class StudyGroupController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $studyGroup = StudyGroup::findOrFail($id);
+        $studyGroup->delete($request->all());
+
+        return $studyGroup;
     }
 }
