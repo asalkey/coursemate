@@ -16,17 +16,20 @@
 
             <div class="col-md-6 p-0 bg-white h-md-100 loginarea">
                 <div class="d-md-flex align-items-center h-md-100 p-5 justify-content-center">
+                  <div class="alert alert-danger" role="alert">
+                    <p> The email or password is incorrect</p>
+                  </div>
                   <form class="needs-validation" novalidate="" @submit.prevent="login">
                     <div class="mb-3">
                       <label for="email">Email</label>
-                      <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                      <input type="email" class="form-control" v-model="formData.email" placeholder="you@example.com">
                       <div class="invalid-feedback">
                       </div>
                     </div>
 
                     <div class="mb-3">
                       <label for="address">Password</label>
-                      <input type="password" class="form-control" id="password" required="">
+                      <input type="password" class="form-control" v-model="formData.password" required="">
                       <div class="invalid-feedback">
                       </div>
                     </div>
@@ -46,9 +49,25 @@ axios.defaults.baseURL = 'http://localhost:8000';
 
 export default {
     name: 'LoginPage',
+    data:function(){
+        return {
+            formData: {
+                email: '',
+                password: ''
+            }
+        }
+    },
     methods:{
         login: function(){
-            console.log(this);
+            axios.get('/sanctum/csrf-cookie').then(response => {
+               axios.post('/login',this.formData)
+               .then(response=>{
+                    //this.$router.push({name:'Dashboard'});
+               }).catch(error => {
+                    //validation
+
+                });
+            });
         }
     }
 }
