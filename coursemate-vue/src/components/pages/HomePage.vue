@@ -1,14 +1,6 @@
 <template>
     <div>
-        <nav class="navbar navbar-expand-lg">
-            <a class="navbar-brand" href="/" aria-label="Bootstrap"> <img src="https://image.flaticon.com/icons/svg/2232/2232688.svg" style="width:3%">Coursemate </a>
-
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><router-link :to='{name: "login"}' class='nav-link'> Login </router-link></li>
-                    <li class="nav-item"><router-link :to='{name: "register"}' class='nav-link'> Register </router-link></li>
-                </ul>
-
-        </nav>
+        <navigation></navigation>
         <div class="container-fluid">
             <div class="row bg">
                 <div class="col-6 tagline">
@@ -26,8 +18,10 @@
 </template>
 
 <script>
+import Navigation from './../Nav.vue';
 export default {
     name: 'HomePage',
+    components:{Navigation},
     data: function (){
         return{
         }

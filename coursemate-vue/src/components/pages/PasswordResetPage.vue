@@ -19,21 +19,13 @@
                   <div class="alert alert-danger" role="alert">
                     <p> The email or password is incorrect</p>
                   </div>
-                  <form class="needs-validation" novalidate="" @submit.prevent="login">
+                  <form class="needs-validation" novalidate="" @submit.prevent="reset">
                     <div class="mb-3">
                       <label for="email">Email</label>
                       <input type="email" class="form-control" v-model="formData.email" placeholder="you@example.com">
                       <div class="invalid-feedback">
                       </div>
                     </div>
-
-                    <div class="mb-3">
-                      <label for="address">Password</label>
-                      <input type="password" class="form-control" v-model="formData.password" required="">
-                      <div class="invalid-feedback">
-                      </div>
-                    </div>
-                    <router-link :to='{name: "reset"}' class='nav-link'> Forgot your password? </router-link>
                     <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
                   </form>
                 </div>
@@ -49,21 +41,20 @@ axios.defaults.withCredentials = true;
 axios.defaults.baseURL = 'http://localhost:8000';
 
 export default {
-    name: 'LoginPage',
+    name: 'PasswordResetPage',
     data:function(){
         return {
             formData: {
                 email: '',
-                password: ''
             }
         }
     },
     methods:{
-        login: function(){
+        reset: function(){
             axios.get('/sanctum/csrf-cookie').then(response => {
-               axios.post('/login',this.formData)
+               axios.post('/password/reset',this.formData)
                .then(response=>{
-                    this.$router.push({name:'dashboard'});
+                    //this.$router.push({name:'Dashboard'});
                }).catch(error => {
                     //validation
 
