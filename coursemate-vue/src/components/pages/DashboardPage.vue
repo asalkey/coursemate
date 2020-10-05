@@ -51,7 +51,6 @@
                 </ul>
                 <button> + add a class </button>
             </div>
-
         </div>
     </div>
 </template>
@@ -67,7 +66,7 @@ export default {
     name: 'DashboardPage',
     components:{Navigation},
     methods:{
-        logut: function(){
+        logout: function(){
             axios.post('/logout').then(response=>{
                 this.$router.push({name:'home'});
             }).catch(error => {
