@@ -52,7 +52,7 @@ export default {
     methods:{
         reset: function(){
             axios.get('/sanctum/csrf-cookie').then(response => {
-               axios.post('/password/reset',this.formData)
+               axios.post('/password/email',this.formData)
                .then(response=>{
                     //this.$router.push({name:'Dashboard'});
                }).catch(error => {
