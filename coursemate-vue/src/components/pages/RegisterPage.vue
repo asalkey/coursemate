@@ -16,44 +16,51 @@
 
             <div class="col-md-6 p-0 bg-white h-md-100 loginarea">
                 <div class="d-md-flex align-items-center h-md-100 p-5 justify-content-center">
-                  <form class="needs-validation" novalidate="" @submit.prevent="register">
-                    <div class="mb-3">
-                      <label for="name">Name</label>
-                      <input type="name" class="form-control" v-model="formData.name" placeholder="you@example.com">
-                      <div class="invalid-feedback">
-                      </div>
-                    </div>
+                  <ValidationObserver v-slot="{ invalid }">
+                      <form class="needs-validation" novalidate="" @submit.prevent="register">
+                        <div class="mb-3">
+                          <label for="name">Name</label>
+                          <ValidationProvider name="Name" rules="required" v-slot="{ errors }">
+                            <input type="name" class="form-control" v-model="formData.name" placeholder="you@example.com">
+                            <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
+                          </ValidationProvider>
+                        </div>
 
-                    <div class="mb-3">
-                      <label for="email">Email</label>
-                      <input type="email" class="form-control" v-model="formData.email" placeholder="you@example.com">
-                      <div class="invalid-feedback">
-                      </div>
-                    </div>
+                        <div class="mb-3">
+                          <label for="email">Email</label>
+                          <ValidationProvider name="Email" rules="required|email" v-slot="{ errors }">
+                            <input type="email" class="form-control" v-model="formData.email" placeholder="you@example.com">
+                            <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
+                          </ValidationProvider>
+                        </div>
 
-                    <div class="mb-3">
-                      <label for="password">Password</label>
-                      <input type="password" class="form-control" v-model="formData.password" required="">
-                      <div class="invalid-feedback">
-                      </div>
-                    </div>
+                        <div class="mb-3">
+                          <label for="password">Password</label>
+                          <ValidationProvider name="Password" rules="requiredl" v-slot="{ errors }">
+                            <input type="password" class="form-control" v-model="formData.password" required="">
+                            <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
+                          </ValidationProvider>
+                        </div>
 
-                    <div class="mb-3">
-                      <label for="password_confirmation">Confirm Password</label>
-                      <input type="password" class="form-control" v-model="formData.password_confirmation" required="">
-                      <div class="invalid-feedback">
-                      </div>
-                    </div>
+                        <div class="mb-3">
+                          <label for="password_confirmation">Confirm Password</label>
+                          <ValidationProvider name="Confirm Password" rules="required" v-slot="{ errors }">
+                              <input type="password" class="form-control" v-model="formData.password_confirmation" required="">
+                              <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
+                          </ValidationProvider>
+                        </div>
 
 
-                    <div class="mb-3">
-                      <label for="school">School</label>
-                      <input type="text" placeholder="enter your school's name..." class="form-control" v-model="formData.school" required="">
-                      <div class="invalid-feedback">
-                      </div>
-                    </div>
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
-                  </form>
+                        <div class="mb-3">
+                          <label for="school">School</label>
+                          <ValidationProvider name="School" rules="required" v-slot="{ errors }">
+                              <input type="text" placeholder="enter your school's name..." class="form-control" v-model="formData.school" required="">
+                              <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
+                          </ValidationProvider>
+                        </div>
+                        <button class="btn btn-primary btn-lg btn-block" type="submit" :disabled="invalid">Register</button>
+                      </form>
+                    </ValidationObserver>
                 </div>
             </div>
         </div>
@@ -61,6 +68,15 @@
 </template>
 
 <script>
+import { ValidationProvider,ValidationObserver} from 'vee-validate';
+import { extend } from 'vee-validate';
+import { required, email } from 'vee-validate/dist/rules';
+
+// Add the required rule
+extend('required', {
+  ...required,
+  message: 'This field is required'
+});
 
 import axios from 'axios';
 axios.defaults.withCredentials = true;
@@ -76,6 +92,9 @@ export default {
                 password_confirmation: '',
             }
         }
+    },
+    components: {
+        ValidationProvider,ValidationObserver
     },
     methods:{
         register: function(){

@@ -19,16 +19,19 @@
                   <div class="alert alert-danger" role="alert">
                     <p> The email or password is incorrect</p>
                   </div>
-                  <form class="needs-validation" novalidate="" @submit.prevent="reset">
-                    <div class="mb-3">
-                      <label for="email">Email</label>
-                      <input type="email" class="form-control" v-model="formData.email" placeholder="you@example.com">
-                      <div class="invalid-feedback">
-                      </div>
-                    </div>
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
-                  </form>
-                </div>
+                  <ValidationObserver v-slot="{ invalid }">
+                      <form class="needs-validation" novalidate="" @submit.prevent="reset">
+                        <div class="mb-3">
+                          <label for="email">Email</label>
+                          <ValidationProvider name="Email" rules="required|email" v-slot="{ errors }">
+                            <input type="email" class="form-control" v-model="formData.email" placeholder="you@example.com">
+                            <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
+                          </ValidationProvider>
+                        </div>
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+                     </form>
+                <ValidationObserver>
+              </div>
             </div>
         </div>
     </div>
