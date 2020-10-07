@@ -13,4 +13,9 @@ class Course extends Model
     {
         return $this->belongsTo('App\Models\School');
     }
+
+    public function studygroups()
+    {
+        return $this->hasMany('App\Models\StudyGroup');
+    }
 }

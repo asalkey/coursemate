@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ConnectSchoolsAndCourses extends Migration
+class ConnectSchoolsAndUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class ConnectSchoolsAndCourses extends Migration
      */
     public function up()
     {
-        Schema::table('courses', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->bigInteger('school_id');
 
-            $table->foreign('school_id')->references('id')->on('courses');
+            $table->foreign('school_id')->references('id')->on('users');
 
         });
     }
@@ -28,7 +28,7 @@ class ConnectSchoolsAndCourses extends Migration
      */
     public function down()
     {
-        $table->dropForeign('courses_school_id_foreign');
+        $table->dropForeign('users_school_id_foreign');
 
         $table->dropColumn('school_id');
     }

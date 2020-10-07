@@ -40,4 +40,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function school()
+    {
+        return $this->belongsTo('App\Models\School');
+    }
+
+    public function studygroups()
+    {
+        return $this->belongsToMany('App\User')->withTimestamps();
+    }
 }
