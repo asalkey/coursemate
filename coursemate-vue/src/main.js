@@ -1,15 +1,13 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router';
-import store from './store'
+import store from './store';
 import HomePage from './components/pages/HomePage.vue';
 import LoginPage from './components/pages/LoginPage.vue';
 import RegisterPage from './components/pages/RegisterPage.vue';
 import SettingsPage from './components/pages/SettingsPage.vue';
 import PasswordResetPage from './components/pages/PasswordResetPage.vue';
 import DashboardPage from './components/pages/DashboardPage.vue';
-
-
 
 Vue.use(VueRouter);
 Vue.config.productionTip = false
@@ -34,7 +32,7 @@ function isLoggedIn() {
 }
 
 router.beforeEach((to, from, next) => {
-  let isLoggedIn = store.dispatch('setAuthenticated');
+  let isLoggedIn = false;
 
   if (to.matched.some(record => record.meta.user)) {
     if (!isLoggedIn) {
