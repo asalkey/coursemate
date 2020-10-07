@@ -22,7 +22,9 @@ class CreateStudyGroupsTable extends Migration
             $table->time('time');
             $table->boolean('remote');
             $table->string('link');
-            $table->string('location');
+            $table->string('address');
+            $table->string('city');
+            $table->string('state');
         });
     }
 
