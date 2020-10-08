@@ -28,9 +28,9 @@
                             <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
                           </ValidationProvider>
                         </div>
-                        <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+                        <button class="btn btn-primary btn-lg btn-block" type="submit" :disabled="invalid">Login</button>
                      </form>
-                <ValidationObserver>
+                </ValidationObserver>
               </div>
             </div>
         </div>

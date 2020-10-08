@@ -26,6 +26,7 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
+        //course needs to be attached to student's school id
         return Course::create($request->all());
     }
 

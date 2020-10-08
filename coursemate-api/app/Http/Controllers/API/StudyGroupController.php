@@ -26,6 +26,27 @@ class StudyGroupController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate([
+           'description' => 'required',
+           'notes' => 'required',
+           'date' => 'required|date',
+           'time' => 'required',
+           'remote' => 'required|boolean',
+           'link' => 'required|url',
+           'address' => 'required|min:255',
+           'city' => 'required|alpha',
+           'state' => 'required|min:2|alpha'
+        ]);
+
+        //$studyGroup = new StudyGroup();
+        //$studyGroup->description = $request->description;
+        //$studyGroup->notes = $request->notes;
+        //$studyGroup->date = $request->date;
+        //$studyGroup->description = $request->time;
+        //$studyGroup->user()->associate($user);
+        //$studyGroup->course()->associate($course);
+        //$studyGroup->save();
         return StudyGroup::create($request->all());
     }
 

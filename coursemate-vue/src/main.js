@@ -32,7 +32,7 @@ function isLoggedIn() {
 }
 
 router.beforeEach((to, from, next) => {
-  let isLoggedIn = false;
+  let isLoggedIn = true;
 
   if (to.matched.some(record => record.meta.user)) {
     if (!isLoggedIn) {
