@@ -2,8 +2,8 @@
     <div>
         <form>
             <input type="text" v-model="addData.description"/>
-            <Calendar v-model="addData.date" />
-            <Calendar v-model="addData.time" :timeOnly="true" hourFormat="12" />
+            <b-form-datepicker v-model="addData.date" placeholder="Choose a date" local="en"></b-form-datepicker>
+            <b-form-timepicker v-model="addData.time" placeholder="Choose a time" local="en"></b-form-timepicker>
             <input type="checkbox" v-model="addData.remote"/>
             <input type="url" name="link" v-model="addData.link"/>
             <input type="text" name="address" v-model="addData.address"/>
@@ -15,14 +15,15 @@
 </template>
 
 <script>
-import Calendar from 'primevue/calendar';
+import { BFormDatepicker,BFormTimepicker} from 'bootstrap-vue'
 
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = 'http://localhost:8000';
 
 export default {
-    components:{Calendar},
+    name: 'AddStudyGroupPage',
+    components:{BFormTimepicker,BFormDatepicker},
     data:function(){
         return {
             addData: {

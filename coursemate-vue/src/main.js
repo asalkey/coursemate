@@ -10,6 +10,7 @@ import RegisterPage from './components/pages/RegisterPage.vue';
 import SettingsPage from './components/pages/SettingsPage.vue';
 import PasswordResetPage from './components/pages/PasswordResetPage.vue';
 import DashboardPage from './components/pages/DashboardPage.vue';
+import AddStudyGroupPage from './components/pages/AddStudyGroupPage.vue';
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -28,8 +29,9 @@ const routes = [
     { path: '/login', component: LoginPage,name:'login',meta: {guest: true} },
     { path: '/password/reset', component: PasswordResetPage,name:'reset',meta: {guest: true} },
     { path: '/register', component: RegisterPage,name:'register',meta: { guest:true} },
-    { path: '/settings', component: SettingsPage,name:'settings', meta: { user: true } },
-    { path: '/dashboard', component: DashboardPage,name:'dashboard', meta: { user: true } }
+    { path: '/dashboard/settings', component: SettingsPage,name:'settings', meta: { user: true } },
+    { path: '/dashboard', component: DashboardPage,name:'dashboard', meta: { user: true } },
+    { path: '/dashboard/studygroup/create', component: AddStudyGroupPage,name:'addstudygroup', meta: { user: true } }
 ]
 
 const router = new VueRouter({

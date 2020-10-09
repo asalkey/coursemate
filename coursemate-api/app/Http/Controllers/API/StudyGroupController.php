@@ -39,6 +39,8 @@ class StudyGroupController extends Controller
            'state' => 'required|min:2|alpha'
         ]);
 
+        var_dump($request);
+
         //$studyGroup = new StudyGroup();
         //$studyGroup->description = $request->description;
         //$studyGroup->notes = $request->notes;
@@ -47,7 +49,7 @@ class StudyGroupController extends Controller
         //$studyGroup->user()->associate($user);
         //$studyGroup->course()->associate($course);
         //$studyGroup->save();
-        return StudyGroup::create($request->all());
+        //return StudyGroup::create($request->all());
     }
 
     /**

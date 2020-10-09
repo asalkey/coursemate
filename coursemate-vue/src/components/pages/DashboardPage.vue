@@ -1,9 +1,18 @@
 <template>
     <div class="dashboard">
         <navigation></navigation>
-        <div class="hero d-flex flex-column align-content-center">
-            <h1> Harvard University</h1>
-
+        <div class="hero d-flex flex-column">
+            <h1 class="d-flex justify-content-center"> Harvard University</h1>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                         <b-icon icon="house-fill"></b-icon>
+                        <router-link :to='{name: "dashboard"}' class='nav-link'> Dashboard </router-link></li>
+                    <li class="nav-item">
+                         <b-icon icon="plus-circle-fill"></b-icon>
+                        <router-link :to='{name: "settings"}' class='nav-link'> Settings</router-link></li>
+                </ul>
+            </nav>
         </div>
         <div style="padding-top: 4%;background: #f8f9fa;border-top: thin solid #eaebec;">
             <div class="container">
@@ -48,12 +57,12 @@
                               <b-form-input list="course-id" class="form-control" placeholder="Course ID"></b-form-input>
                               <datalist id="course-id">
                                 <option>Manual Option</option>
-                                <option v-for="courseID in courseIDs">{{ courseID }}</option>
+                                <option v-for="courseID in courseIDs" v-bind:key="courseID.id">{{ courseID }}</option>
                               </datalist>
 
                               <b-form-input list="course-name" class="form-control" placeholder="Course Name"></b-form-input>
                               <datalist id="course-name">
-                                <option v-for="courseName in courseNames">{{ courseName }}</option>
+                                <option v-for="courseName in courseNames" v-bind:key="courseName.id">{{ courseName }}</option>
                               </datalist>
 
                           <b-input-group-append>
@@ -72,7 +81,7 @@
 
 
 
-import { BFormDatepicker,BButton,BFormTimepicker,BListGroup } from 'bootstrap-vue'
+import { BFormDatepicker,BButton,BFormTimepicker,BListGroup} from 'bootstrap-vue'
 import Navigation from './../Nav.vue';
 //import Dashboard from './dashboard/Dashboard.vue';
 //import AddStudyGroup from './dashboard/AddStudyGroup.vue';
