@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router';
 import store from './store';
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+
 import HomePage from './components/pages/HomePage.vue';
 import LoginPage from './components/pages/LoginPage.vue';
 import RegisterPage from './components/pages/RegisterPage.vue';
@@ -9,9 +11,17 @@ import SettingsPage from './components/pages/SettingsPage.vue';
 import PasswordResetPage from './components/pages/PasswordResetPage.vue';
 import DashboardPage from './components/pages/DashboardPage.vue';
 
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+//import './custom.scss'
+
 Vue.use(VueRouter);
 Vue.config.productionTip = false
 
+// Install BootstrapVue
+Vue.use(BootstrapVue)
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin)
 
 const routes = [
     { path: '/', component: HomePage,name:'home',meta: {guest: true} },

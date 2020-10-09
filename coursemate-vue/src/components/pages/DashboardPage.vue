@@ -1,28 +1,68 @@
 <template>
     <div class="dashboard">
         <navigation></navigation>
-        <div class="hero d-flex justify-content-center">
+        <div class="hero d-flex flex-column align-content-center">
             <h1> Harvard University</h1>
+
         </div>
-        <div class="d-flex">
-            <div class="container card">
-                <h5>Custom Headers</h5>
-                <TabView class="tabview-custom">
-                    <TabPanel>
-                        <template #header>
-                            <i class="pi pi-calendar"></i>
-                            <span>Header I</span>
-                        </template>
-                        <Dashboard></Dashboard>
-                    </TabPanel>
-                    <TabPanel>
-                        <template #header>
-                            <span>Header II</span>
-                            <i class="pi pi-user"></i>
-                        </template>
-                        <AddStudyGroup></AddStudyGroup>
-                    </TabPanel>
-                </TabView>
+        <div style="padding-top: 4%;background: #f8f9fa;border-top: thin solid #eaebec;">
+            <div class="container">
+                <div class="d-flex flex-row">
+                    <b-list-group class="list-group mb-3 col-8">
+                      <b-list-group-item class="d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0">-</h6>
+                            <small class="text-muted">-</small>
+                        </div>
+                        <b-button :pressed.sync="myToggle" variant="primary">Toggle Me</b-button>
+                      </b-list-group-item>
+                    </b-list-group>
+
+
+
+                    <div class="mb-3 col-4">
+                       <b-button-group size="sm">
+                          <b-button
+                            v-for="(btn, idx) in buttons"
+                            :key="idx"
+                            :pressed.sync="btn.state"
+                            variant="primary"
+                          >
+                            {{ btn.caption }}
+                          </b-button>
+                        </b-button-group>
+<b-form-datepicker id="datepicker-placeholder" placeholder="Choose a date" local="en"></b-form-datepicker>
+                      <b-form-timepicker id="timepicker-placeholder" placeholder="Choose a time" local="en"></b-form-timepicker>
+                      <b-list-group>
+                          <b-list-group-item href="#" active class="d-flex justify-content-between lh-condensed">
+                           <div>
+                            <h6 class="my-0">-</h6>
+                            <small class="text-muted">-</small>
+                          </div>
+                          <span class="text-muted">-</span>
+                          </b-list-group-item>
+                     </b-list-group>
+
+                      <form class="card p-2">
+                        <b-input-group>
+                              <b-form-input list="course-id" class="form-control" placeholder="Course ID"></b-form-input>
+                              <datalist id="course-id">
+                                <option>Manual Option</option>
+                                <option v-for="courseID in courseIDs">{{ courseID }}</option>
+                              </datalist>
+
+                              <b-form-input list="course-name" class="form-control" placeholder="Course Name"></b-form-input>
+                              <datalist id="course-name">
+                                <option v-for="courseName in courseNames">{{ courseName }}</option>
+                              </datalist>
+
+                          <b-input-group-append>
+                            <b-button variant="outline-secondary">+ Add</b-button>
+                          </b-input-group-append>
+                        </b-input-group>
+                      </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -31,11 +71,13 @@
 <script>
 
 
+
+import { BFormDatepicker,BButton,BFormTimepicker,BListGroup } from 'bootstrap-vue'
 import Navigation from './../Nav.vue';
-import Dashboard from './dashboard/Dashboard.vue';
-import AddStudyGroup from './dashboard/AddStudyGroup.vue';
-import TabView from 'primevue/tabview';
-import TabPanel from 'primevue/tabpanel';
+//import Dashboard from './dashboard/Dashboard.vue';
+//import AddStudyGroup from './dashboard/AddStudyGroup.vue';
+//import TabView from 'primevue/tabview';
+//import TabPanel from 'primevue/tabpanel';
 
 
 import axios from 'axios';
@@ -44,20 +86,17 @@ axios.defaults.baseURL = 'http://localhost:8000';
 
 export default {
     name: 'DashboardPage',
-    components:{Navigation,TabView,TabPanel,Dashboard,AddStudyGroup},
+    components:{Navigation,BFormTimepicker,BFormDatepicker,BButton,BListGroup},
     data:function(){
         return {
-            addData: {
-                date: '',
-                description:'',
-                address:'',
-                time:'',
-                city:'',
-                state:'',
-                notes:'',
-                remote:false,
-                link:'',
-            }
+            buttons: [
+              { caption: 'Remote', state: true },
+              { caption: 'Near me', state: true },
+            ],
+            courseNames: ['Intro to Javascript', 'Digital Media Capstone', 'Web Development With PHP'],
+            courseIDs: ['DGM1322', 'CS150', 'DGM22'],
+            date:null,
+            time:null,
         }
     },
     methods:{
