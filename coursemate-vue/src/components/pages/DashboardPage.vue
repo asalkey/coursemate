@@ -1,20 +1,7 @@
 <template>
     <div class="dashboard">
-        <navigation></navigation>
-        <div class="hero d-flex flex-column">
-            <h1 class="d-flex justify-content-center"> Harvard University</h1>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                         <b-icon icon="house-fill"></b-icon>
-                        <router-link :to='{name: "dashboard"}' class='nav-link'> Dashboard </router-link></li>
-                    <li class="nav-item">
-                         <b-icon icon="plus-circle-fill"></b-icon>
-                        <router-link :to='{name: "settings"}' class='nav-link'> Settings</router-link></li>
-                </ul>
-            </nav>
-        </div>
-        <div style="padding-top: 4%;background: #f8f9fa;border-top: thin solid #eaebec;">
+        <Header></Header>
+        <main>
             <div class="container">
                 <div class="d-flex flex-row">
                     <b-list-group class="list-group mb-3 col-8">
@@ -73,7 +60,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
 </template>
 
@@ -82,12 +69,7 @@
 
 
 import { BFormDatepicker,BButton,BFormTimepicker,BListGroup} from 'bootstrap-vue'
-import Navigation from './../Nav.vue';
-//import Dashboard from './dashboard/Dashboard.vue';
-//import AddStudyGroup from './dashboard/AddStudyGroup.vue';
-//import TabView from 'primevue/tabview';
-//import TabPanel from 'primevue/tabpanel';
-
+import Header from './../DashboardHeader.vue';
 
 import axios from 'axios';
 axios.defaults.withCredentials = true;
@@ -95,7 +77,7 @@ axios.defaults.baseURL = 'http://localhost:8000';
 
 export default {
     name: 'DashboardPage',
-    components:{Navigation,BFormTimepicker,BFormDatepicker,BButton,BListGroup},
+    components:{Header,BFormTimepicker,BFormDatepicker,BButton,BListGroup},
     data:function(){
         return {
             buttons: [
