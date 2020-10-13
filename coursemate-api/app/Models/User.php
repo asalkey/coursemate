@@ -48,6 +48,6 @@ class User extends Authenticatable
 
     public function studygroups()
     {
-        return $this->belongsToMany('App\User')->withTimestamps();
+        return $this->belongsToMany('App\Models\User')->withTimestamps();
     }
 }

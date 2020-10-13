@@ -103,7 +103,6 @@ export default {
     },
     methods:{
         getValidationState({ dirty, validated, valid = null }) {
-           console.log('hey');
             return dirty || validated ? valid : null;
         },
         onSubmit: function(){

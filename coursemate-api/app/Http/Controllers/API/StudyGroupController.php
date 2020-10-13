@@ -43,9 +43,8 @@ class StudyGroupController extends Controller
         $studyGroup->notes = $request->notes;
         $studyGroup->date = $request->date;
         $studyGroup->description = $request->time;
-        $studyGroup->user()->associate($user);
-        $studyGroup->course()->associate($course);
-        return $studyGroup->save();
+
+        return $request->user()->studygroups()->save($studyGroup);
     }
 
     /**
