@@ -14,9 +14,9 @@ class ConnectStudyGroupsAndCourses extends Migration
     public function up()
     {
         Schema::table('study_groups', function (Blueprint $table) {
-            $table->bigInteger('course_id');
+            $table->bigInteger('course_id')->unsigned();
 
-            $table->foreign('course_id')->references('id')->on('study_groups');
+            $table->foreign('course_id')->references('id')->on('courses');
 
         });
     }

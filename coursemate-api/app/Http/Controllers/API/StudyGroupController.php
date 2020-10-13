@@ -42,7 +42,12 @@ class StudyGroupController extends Controller
         $studyGroup->description = $request->description;
         $studyGroup->notes = $request->notes;
         $studyGroup->date = $request->date;
-        $studyGroup->description = $request->time;
+        $studyGroup->time = $request->time;
+        $studyGroup->remote = $request->remote;
+        $studyGroup->link = $request->link;
+        $studyGroup->address = $request->address;
+        $studyGroup->city = $request->city;
+        $studyGroup->state = $request->state;
 
         return $request->user()->studygroups()->save($studyGroup);
     }

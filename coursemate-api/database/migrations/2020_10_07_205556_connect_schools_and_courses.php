@@ -14,9 +14,9 @@ class ConnectSchoolsAndCourses extends Migration
     public function up()
     {
         Schema::table('courses', function (Blueprint $table) {
-            $table->bigInteger('school_id');
+            $table->bigInteger('school_id')->unsigned();
 
-            $table->foreign('school_id')->references('id')->on('courses');
+            $table->foreign('school_id')->references('id')->on('schools');
 
         });
     }

@@ -21,7 +21,7 @@ class ConnectUsersAndStudyGroups extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('study_group_id')->references('id')->on('study_groups');
             $table->foreign('user_id')->references('id')->on('users');
-        }
+        });
 
     }
 
