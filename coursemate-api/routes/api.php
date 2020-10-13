@@ -18,9 +18,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group(['middleware' => 'auth:sanctum'], function () {
 
-Route::apiResource('studygroups', App\Http\Controllers\API\StudyGroupController::class);
+    Route::apiResource('studygroups', App\Http\Controllers\API\StudyGroupController::class);
 
-Route::apiResource('courses', App\Http\Controllers\API\CourseController::class);
+    Route::apiResource('courses', App\Http\Controllers\API\CourseController::class);
 
-Route::apiResource('schools', App\Http\Controllers\API\SchoolController::class);
+    Route::apiResource('schools', App\Http\Controllers\API\SchoolController::class);
+});
+

@@ -4,63 +4,60 @@
         <main>
             <div class="container d-flex justify-content-center">
                 <div class="col-6">
-                    <ValidationObserver ref="form" v-slot="{ invalid }">
-                        <form class="needs-validation" novalidate="" @submit.prevent="create">
+                    <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+                        <form @submit.prevent="handleSubmit(onSubmit)">
                             <div class="form-group">
-                                 <ValidationProvider name="description" rules="required" v-slot="{ errors }">
-                                    <b-form-input type="text" v-model="addData.description" placeholder="Exam 2 Help"></b-form-input>
-                                    <div class="invalid-feedback" v-if="errors[0]">{{ errors[0] }}</div>
+                                 <ValidationProvider name="description" rules="required" v-slot="validationContext">
+                                    <b-form-input type="text" v-model="addData.description" placeholder="Exam 2 Help" :state="getValidationState(validationContext)"></b-form-input>
+                                    <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
                                 </ValidationProvider>
                             </div>
                             <div class="form-group">
-                                <ValidationProvider name="date" rules="required"  v-slot="{ errors }">
-                                    <b-form-datepicker v-model="addData.date" placeholder="Choose a date" local="en"></b-form-datepicker>
-                                    <div class="invalid-feedback" v-if="errors[0]">{{ errors[0] }}</div>
+                                <ValidationProvider name="date" rules="required"  v-slot="validationContext">
+                                    <b-form-datepicker v-model="addData.date" placeholder="Choose a date" local="en" :state="getValidationState(validationContext)"></b-form-datepicker>
+                                    <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
                                 </ValidationProvider>
                             </div>
                             <div class="form-group">
-                                <ValidationProvider name="time" rules="required" v-slot="{ errors }">
-                                    <b-form-timepicker v-model="addData.time" placeholder="Choose a time" local="en"></b-form-timepicker>
-                                    <div class="invalid-feedback" v-if="errors[0]">{{ errors[0] }}</div>
+                                <ValidationProvider name="time" rules="required" v-slot="validationContext">
+                                    <b-form-timepicker v-model="addData.time" placeholder="Choose a time" local="en" :state="getValidationState(validationContext)" ></b-form-timepicker>
+                                    <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
                                 </ValidationProvider>
                             </div>
                             <div class="form-group">
-                                <ValidationProvider name="remote" rules="required" v-slot="{ errors }">
-                                    <b-form-input type="checkbox" v-model="addData.remote"></b-form-input>
-                                    <div class="invalid-feedback" v-if="errors[0]">{{ errors[0] }}</div>
+                                    <b-form-checkbox v.model="remote" >Remote?</b-form-checkbox>
+                            </div>
+                            <div class="form-group">
+                                <ValidationProvider name="link" rules="required" v-slot="validationContext">
+                                    <b-form-input type="url" v-model="addData.link" placeholder="zoom link" :state="getValidationState(validationContext)"></b-form-input>
+                                    <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
                                 </ValidationProvider>
                             </div>
                             <div class="form-group">
-                                <ValidationProvider name="link" rules="required" v-slot="{ errors }">
-                                    <b-form-input type="url" v-model="addData.link" placeholder="zoom link"></b-form-input>
-                                    <div class="invalid-feedback" v-if="errors[0]">{{ errors[0] }}</div>
+                                <ValidationProvider name="address" rules="required" v-slot="validationContext">
+                                    <b-form-input type="text" v-model="addData.address" placeholder="address" :state="getValidationState(validationContext)"></b-form-input>
+                                    <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
                                 </ValidationProvider>
                             </div>
                             <div class="form-group">
-                                <ValidationProvider name="address" rules="required" v-slot="{ errors }">
-                                    <b-form-input type="text" v-model="addData.address" placeholder="address"></b-form-input>
-                                    <div class="invalid-feedback" v-if="errors[0]">{{ errors[0] }}</div>
+                                <ValidationProvider name="city" rules="required" v-slot="validationContext">
+                                    <b-form-input type="text" v-model="addData.city" placeholder="city" :state="getValidationState(validationContext)"></b-form-input>
+                                    <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
                                 </ValidationProvider>
                             </div>
                             <div class="form-group">
-                                <ValidationProvider name="city" rules="required" v-slot="{ errors }">
-                                    <b-form-input type="text" v-model="addData.city" placeholder="city"></b-form-input>
-                                    <div class="invalid-feedback" v-if="errors[0]">{{ errors[0] }}</div>
-                                </ValidationProvider>
-                            </div>
-                            <div class="form-group">
-                                <ValidationProvider name="state" rules="required" v-slot="{ errors }">
-                                    <b-form-input type="text" v-model="addData.state" placeholder="state"></b-form-input>
-                                    <div class="invalid-feedback" v-if="errors[0]">{{ errors[0] }}</div>
+                                <ValidationProvider name="state" rules="required" v-slot="validationContext">
+                                    <b-form-input type="text" v-model="addData.state" placeholder="state" :state="getValidationState(validationContext)"></b-form-input>
+                                    <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
                                  </ValidationProvider>
                             </div>
                             <div class="form-group">
-                                <ValidationProvider name="notes" rules="required" v-slot="{ errors }">
-                                    <b-form-textarea></b-form-textarea>
-                                    <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
+                                <ValidationProvider name="notes" rules="required" v-slot="validationContext">
+                                    <b-form-textarea v-model="addData.notes" :state="getValidationState(validationContext)"></b-form-textarea>
+                                    <div class="invalid-feedback" >{{ validationContext.errors[0] }}</div>
                                 </ValidationProvider>
                             </div>
-                            <button type="submit" class="btn btn-primary" :disabled="invalid">Submit</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </ValidationObserver>
                 </div>
@@ -105,13 +102,16 @@ export default {
         }
     },
     methods:{
-        create: function(){
-            console.log(this.$refs.form);
+        getValidationState({ dirty, validated, valid = null }) {
+           console.log('hey');
+            return dirty || validated ? valid : null;
+        },
+        onSubmit: function(){
             axios.post('/api/studygroups',this.addData).then(response=>{
                 console.log(response);
             }).catch(error => {
-                console.log(this);
-
+                this.$refs.form.setErrors(error.response.data.errors);
+                return;
             });
 
         }
