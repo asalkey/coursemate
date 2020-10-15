@@ -56,8 +56,9 @@
                           <ValidationProvider name="School" rules="required" v-slot="{ errors }">
                               <b-form-input list="schools-list" v-model="formData.school_id" class="form-control" placeholder="enter your school's name..."></b-form-input>
                               <datalist id="schools-list">
-                                <option v-for="school in schools" v-bind:key="school.id">{{ school.name }}</option>
+                                <option v-for="school in schools" v-bind:key="school.id" :value="school.id">{{ school.name }}</option>
                               </datalist>
+                              {{formData.school_id}}
                               <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
                           </ValidationProvider>
                         </div>
