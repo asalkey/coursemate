@@ -54,11 +54,10 @@
                         <div class="mb-3">
                           <label for="school">School</label>
                           <ValidationProvider name="School" rules="required" v-slot="{ errors }">
-                              <b-form-input list="schools-list" v-model="formData.school_id" class="form-control" placeholder="enter your school's name..."></b-form-input>
+                              <b-form-input list="schools-list" v-model="schoolInput" :data-id="0" class="schools" placeholder="enter your school's name..."></b-form-input>
                               <datalist id="schools-list">
-                                <option v-for="school in schools" v-bind:key="school.id" :value="school.id">{{ school.name }}</option>
+                                <option v-for="school in schools" v-bind:key="school.id" :data-id="school.id" :value="school.name">{{ school.name }}</option>
                               </datalist>
-                              {{formData.school_id}}
                               <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
                           </ValidationProvider>
                         </div>
@@ -91,6 +90,14 @@ export default {
     components:{ValidationProvider,ValidationObserver},
     data:function(){
         return {
+            schoolPick (value){
+              let getOption = document.querySelectorAll(`#schools-list option[value="${value}"]`)[0];
+              let getOptionID = (getOption) ? getOption.dataset.id : null;
+
+              return (getOptionID) ? getOptionID : null;
+
+            },
+            schoolDisplay:'',
             formData: {
                 email: '',
                 password: '',
@@ -102,7 +109,17 @@ export default {
     computed: {
         schools() {
            return this.$store.state.schools;
-        }
+        },
+        schoolInput: {
+            get() {
+              return this.schoolDisplay
+            },
+            set(value) {
+              this.formData.school_id = this.schoolPick(value);
+
+              this.schoolDisplay = value;
+            }
+        },
     },
     mounted() {
         this.$store.dispatch('setSchools');
