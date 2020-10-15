@@ -54,7 +54,10 @@
                         <div class="mb-3">
                           <label for="school">School</label>
                           <ValidationProvider name="School" rules="required" v-slot="{ errors }">
-                              <input type="text" placeholder="enter your school's name..." class="form-control" v-model="formData.school_id" required="">
+                              <b-form-input list="schools-list" v-model="formData.school_id" class="form-control" placeholder="enter your school's name..."></b-form-input>
+                              <datalist id="schools-list">
+                                <option v-for="school in schools" v-bind:key="school.id">{{ school.name }}</option>
+                              </datalist>
                               <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
                           </ValidationProvider>
                         </div>
@@ -84,6 +87,7 @@ axios.defaults.baseURL = 'http://localhost:8000';
 
 export default {
     name: 'PasswordResetPage',
+    components:{ValidationProvider,ValidationObserver},
     data:function(){
         return {
             formData: {
@@ -94,8 +98,13 @@ export default {
             }
         }
     },
-    components: {
-        ValidationProvider,ValidationObserver
+    computed: {
+        schools() {
+           return this.$store.state.schools;
+        }
+    },
+    mounted() {
+        this.$store.dispatch('setSchools');
     },
     methods:{
         register: function(){

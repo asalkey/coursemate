@@ -76,7 +76,7 @@ axios.defaults.withCredentials = true;
 axios.defaults.baseURL = 'http://localhost:8000';
 
 export default {
-    name: 'ShowStudyGroupsPage',
+    name: 'StudyGroupsListPage',
     components:{Header,BFormTimepicker,BFormDatepicker,BButton,BListGroup},
     data:function(){
         return {
@@ -90,24 +90,13 @@ export default {
             time:null,
         }
     },
+    computed: {
+        studygroups: function() {
+            return this.$store.state.studygroups;
+        }
+    },
     methods:{
         logout: function(){
-            axios.post('/logout').then(response=>{
-                this.$router.push({name:'home'});
-            }).catch(error => {
-                    //validation
-            });
-
-        },
-        createStudyGroup: function(){
-            axios.post('/logout').then(response=>{
-                this.$router.push({name:'home'});
-            }).catch(error => {
-                    //validation
-            });
-
-        },
-        createCourse: function(){
             axios.post('/logout').then(response=>{
                 this.$router.push({name:'home'});
             }).catch(error => {

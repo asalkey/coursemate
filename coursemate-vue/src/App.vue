@@ -14,6 +14,7 @@ export default {
         }
   },
   mounted() {
+    this.$store.dispatch('setStudyGroups');
   }
 }
 </script>

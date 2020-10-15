@@ -10,12 +10,14 @@ import RegisterPage from './components/pages/RegisterPage.vue';
 import SettingsPage from './components/pages/SettingsPage.vue';
 import PasswordResetPage from './components/pages/PasswordResetPage.vue';
 import CoursesListPage from './components/pages/CoursesListPage.vue';
-import ShowStudyGroupsPage from './components/pages/ShowStudyGroupsPage.vue';
+import StudyGroupsListPage from './components/pages/StudyGroupsListPage.vue';
 import AddStudyGroupPage from './components/pages/AddStudyGroupPage.vue';
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-//import './custom.scss'
+
+
+import _ from "lodash";
 
 Vue.use(VueRouter);
 Vue.config.productionTip = false
@@ -31,7 +33,7 @@ const routes = [
     { path: '/password/reset', component: PasswordResetPage,name:'reset',meta: {guest: true} },
     { path: '/register', component: RegisterPage,name:'register',meta: { guest:true} },
     { path: '/dashboard/settings', component: SettingsPage,name:'settings', meta: { user: true } },
-    { path: '/dashboard/studygroups/:id', component: ShowStudyGroupsPage,name:'showstudygroups', meta: { user: true } },
+    { path: '/dashboard/studygroups/:id', component: StudyGroupsListPage,name:'showstudygroups', meta: { user: true } },
     { path: '/dashboard/studygroup', component: AddStudyGroupPage,name:'addstudygroup', meta: { user: true } },
     { path: '/dashboard', component: CoursesListPage,name:'showcourses', meta: { user: true } }
 ]
@@ -46,7 +48,7 @@ function isLoggedIn() {
 }
 
 router.beforeEach((to, from, next) => {
-  let isLoggedIn = true;
+  let isLoggedIn = false;
 
   if (to.matched.some(record => record.meta.user)) {
     if (!isLoggedIn) {
