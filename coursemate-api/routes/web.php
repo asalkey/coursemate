@@ -14,7 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    //return view('welcome');
+    $file = \File::get("../database/data/schools.json");
+    $data = json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $file));
+
+    dd($data);
 });
 
 Auth::routes();

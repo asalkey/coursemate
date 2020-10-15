@@ -36,7 +36,7 @@
 
                         <div class="mb-3">
                           <label for="password">Password</label>
-                          <ValidationProvider name="Password" rules="requiredl" v-slot="{ errors }">
+                          <ValidationProvider name="Password" rules="required" v-slot="{ errors }">
                             <input type="password" class="form-control" v-model="formData.password" required="">
                             <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
                           </ValidationProvider>
@@ -54,7 +54,7 @@
                         <div class="mb-3">
                           <label for="school">School</label>
                           <ValidationProvider name="School" rules="required" v-slot="{ errors }">
-                              <input type="text" placeholder="enter your school's name..." class="form-control" v-model="formData.school" required="">
+                              <input type="text" placeholder="enter your school's name..." class="form-control" v-model="formData.school_id" required="">
                               <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
                           </ValidationProvider>
                         </div>
@@ -90,6 +90,7 @@ export default {
                 email: '',
                 password: '',
                 password_confirmation: '',
+                school_id:'',
             }
         }
     },

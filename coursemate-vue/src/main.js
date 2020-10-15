@@ -9,7 +9,8 @@ import LoginPage from './components/pages/LoginPage.vue';
 import RegisterPage from './components/pages/RegisterPage.vue';
 import SettingsPage from './components/pages/SettingsPage.vue';
 import PasswordResetPage from './components/pages/PasswordResetPage.vue';
-import DashboardPage from './components/pages/DashboardPage.vue';
+import CoursesListPage from './components/pages/CoursesListPage.vue';
+import ShowStudyGroupsPage from './components/pages/ShowStudyGroupsPage.vue';
 import AddStudyGroupPage from './components/pages/AddStudyGroupPage.vue';
 
 import 'bootstrap/dist/css/bootstrap.css'
@@ -30,8 +31,9 @@ const routes = [
     { path: '/password/reset', component: PasswordResetPage,name:'reset',meta: {guest: true} },
     { path: '/register', component: RegisterPage,name:'register',meta: { guest:true} },
     { path: '/dashboard/settings', component: SettingsPage,name:'settings', meta: { user: true } },
-    { path: '/dashboard', component: DashboardPage,name:'dashboard', meta: { user: true } },
-    { path: '/dashboard/studygroup/create', component: AddStudyGroupPage,name:'addstudygroup', meta: { user: true } }
+    { path: '/dashboard/studygroups/:id', component: ShowStudyGroupsPage,name:'showstudygroups', meta: { user: true } },
+    { path: '/dashboard/studygroup', component: AddStudyGroupPage,name:'addstudygroup', meta: { user: true } },
+    { path: '/dashboard', component: CoursesListPage,name:'showcourses', meta: { user: true } }
 ]
 
 const router = new VueRouter({

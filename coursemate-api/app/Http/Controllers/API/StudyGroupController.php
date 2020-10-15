@@ -33,7 +33,7 @@ class StudyGroupController extends Controller
            'time' => 'required',
            'remote' => 'required|boolean',
            'link' => 'required|url',
-           'address' => 'required|min:255',
+           'address' => 'required',
            'city' => 'required|alpha',
            'state' => 'required|min:2|alpha'
         ]);
@@ -48,6 +48,7 @@ class StudyGroupController extends Controller
         $studyGroup->address = $request->address;
         $studyGroup->city = $request->city;
         $studyGroup->state = $request->state;
+        $studyGroup->course_id = 2;
 
         return $request->user()->studygroups()->save($studyGroup);
     }
