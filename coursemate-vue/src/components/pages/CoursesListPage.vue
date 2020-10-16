@@ -5,15 +5,17 @@
             <div class="container">
                 <div class="d-flex flex-row">
                     <div class="mb-3">
-                      <b-list-group>
-                          <b-list-group-item href="#" active class="d-flex justify-content-between lh-condensed">
-                           <div v-for="course in courses" v-bind:key="course.id">
-                             <h6 class="my-0">{{course.name}}</h6>
-                             <small class="text-muted">{{course.number}}</small>
-                          </div>
-                          <span class="text-muted">-</span>
-                          </b-list-group-item>
-                     </b-list-group>
+
+                          <b-list-group v-for="course in courses" v-bind:key="course.id" >
+                              <li class="d-flex list-group-item justify-content-between lh-condensed">
+                                   <router-link tag="div" :to="{ name: 'showstudygroups', params: { id: course.id }}">
+                                     <h6 class="my-0">{{course.name}}</h6>
+                                     <small class="text-muted">{{course.number}}</small>
+                                  </router-link>
+                                  <b-icon-trash></b-icon-trash>
+                             </li>
+                        </b-list-group>
+
                     <ValidationObserver ref="form" v-slot="{ handleSubmit }">
                       <form class="card p-2" @submit.prevent="handleSubmit(onSubmit)">
                         <b-input-group>
