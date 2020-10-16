@@ -14,7 +14,7 @@ class ConnectSchoolsAndUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->bigInteger('school_id')->nullable()->unsigned();
+            $table->bigInteger('school_id')->unsigned();
 
             $table->foreign('school_id')->references('id')->on('schools');
 
@@ -28,8 +28,9 @@ class ConnectSchoolsAndUsers extends Migration
      */
     public function down()
     {
-        $table->dropForeign('users_school_id_foreign');
-
-        $table->dropColumn('school_id');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign('users_school_id_foreign');
+            $table->dropColumn('school_id');
+        });
     }
 }

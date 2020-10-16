@@ -12,7 +12,8 @@ export default new Vuex.Store({
     authenticated: false,
     courses:null,
     studygroups:null,
-    schools:null
+    schools:null,
+    user:null
   },
   mutations: {
     setAuthenticated(state, payload) {
@@ -27,11 +28,15 @@ export default new Vuex.Store({
     setSchools(state, payload) {
       state.schools = payload;
     },
+    setUser(state, payload){
+      state.user = payload;
+    },
   },
   actions: {
     setAuthenticated(state) {
         axios.get('/api/user').then(response=>{
             state.commit("setAuthenticated", true);
+            state.commit("setUser", response.data);
         }).catch(() => {
             state.commit("setAuthenticated", false);
         });

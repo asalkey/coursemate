@@ -9,6 +9,13 @@ class Course extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'number',
+        'user_id',
+        'school_id'
+    ];
+
     public function school()
     {
         return $this->belongsTo('App\Models\School');

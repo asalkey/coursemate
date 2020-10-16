@@ -2,6 +2,7 @@
     <div class="dashboard">
         <Header></Header>
         <main>
+            {{user.school_id}}
             <div class="container">
                 <div class="d-flex flex-row">
                     <div class="mb-3">
@@ -18,14 +19,14 @@
                       <form class="card p-2" @submit.prevent="handleSubmit(onSubmit)">
                         <b-input-group>
                              <ValidationProvider name="courseID" rules="required" v-slot="validationContext">
-                                  <b-form-input list="course-id" v-model="courseID" class="form-control" placeholder="Course ID" :state="getValidationState(validationContext)"></b-form-input>
+                                  <b-form-input list="course-id" v-model="courseData.number" class="form-control" placeholder="Course ID" :state="getValidationState(validationContext)"></b-form-input>
                                   <datalist id="course-id">
                                     <option v-for="courseID in courseIDs" v-bind:key="courseID.id">{{ courseID }}</option>
                                   </datalist>
                                   <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
                             </ValidationProvider>
                             <ValidationProvider name="courseName" rules="required" v-slot="validationContext">
-                              <b-form-input list="course-name" v-model="courseName" class="form-control" placeholder="Course Name" :state="getValidationState(validationContext)"></b-form-input>
+                              <b-form-input list="course-name" v-model="courseData.name" class="form-control" placeholder="Course Name" :state="getValidationState(validationContext)"></b-form-input>
                               <datalist id="course-name">
                                 <option v-for="courseName in courseNames" v-bind:key="courseName.id">{{ courseName }}</option>
                               </datalist>
@@ -66,19 +67,30 @@ export default {
             courseID:'',
             courseNames: ['Intro to Javascript', 'Digital Media Capstone', 'Web Development With PHP'],
             courseIDs: ['DGM1322', 'CS150', 'DGM22'],
+            courseData:{
+                name:'',
+                number:''
+            }
         }
     },
     computed: {
-        courses: function() {
+        courses(){
             return this.$store.state.courses;
+        },
+        user(){
+            return this.$store.state.user;
         }
+    },
+    mounted() {
+        this.$store.dispatch('setAuthenticated');
+        this.$store.dispatch('setCourses');
     },
     methods:{
         getValidationState({ dirty, validated, valid = null }) {
             return dirty || validated ? valid : null;
         },
         onSubmit: function(){
-            axios.post('/api/courses',this.addData).then(response=>{
+            axios.post('/api/courses',this.courseData).then(response=>{
                 console.log(response);
             }).catch(error => {
                 this.$refs.form.setErrors(error.response.data.errors);

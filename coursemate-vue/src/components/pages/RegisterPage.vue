@@ -129,7 +129,7 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                axios.post('/register',this.formData)
                .then(response=>{
-                    this.$router.push({name:'Dashboard'});
+                    this.$router.push({name:'showcourses'});
                }).catch(error => {
                     //validation
 

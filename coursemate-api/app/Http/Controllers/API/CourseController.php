@@ -26,7 +26,14 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //course needs to be attached to student's school id
+        $request->validate([
+           'name' => 'required',
+           'number' => 'required',
+        ]);
+
+        $request['school_id'] = $request->user()->school_id;
+        $request['user_id'] = $request->user()->id;
+
         return Course::create($request->all());
     }
 

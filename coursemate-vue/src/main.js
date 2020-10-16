@@ -48,7 +48,7 @@ function isLoggedIn() {
 }
 
 router.beforeEach((to, from, next) => {
-  let isLoggedIn = false;
+  let isLoggedIn = true;
 
   if (to.matched.some(record => record.meta.user)) {
     if (!isLoggedIn) {
@@ -61,7 +61,7 @@ router.beforeEach((to, from, next) => {
   } else if (to.matched.some(record => record.meta.guest)) {
     if (isLoggedIn) {
       next({
-        name: 'dashboard',
+        name: 'showcourses',
       })
     } else {
       next()

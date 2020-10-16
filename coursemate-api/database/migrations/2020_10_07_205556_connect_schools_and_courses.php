@@ -28,8 +28,9 @@ class ConnectSchoolsAndCourses extends Migration
      */
     public function down()
     {
-        $table->dropForeign('courses_school_id_foreign');
-
-        $table->dropColumn('school_id');
+        Schema::table('courses', function (Blueprint $table) {
+            $table->dropForeign('courses_school_id_foreign');
+            $table->dropColumn('school_id');
+        });
     }
 }
