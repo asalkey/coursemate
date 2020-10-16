@@ -2,15 +2,14 @@
     <div class="dashboard">
         <Header></Header>
         <main>
-            {{user.school_id}}
             <div class="container">
                 <div class="d-flex flex-row">
                     <div class="mb-3">
                       <b-list-group>
                           <b-list-group-item href="#" active class="d-flex justify-content-between lh-condensed">
-                           <div>
-                            <h6 class="my-0">-</h6>
-                            <small class="text-muted">-</small>
+                           <div v-for="course in courses" v-bind:key="course.id">
+                             <h6 class="my-0">{{course.name}}</h6>
+                             <small class="text-muted">{{course.number}}</small>
                           </div>
                           <span class="text-muted">-</span>
                           </b-list-group-item>

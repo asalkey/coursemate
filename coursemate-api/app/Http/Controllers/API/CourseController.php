@@ -13,9 +13,9 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Course::all();
+        return $request->user()->courses;
     }
 
     /**
@@ -32,9 +32,10 @@ class CourseController extends Controller
         ]);
 
         $request['school_id'] = $request->user()->school_id;
-        $request['user_id'] = $request->user()->id;
 
-        return Course::create($request->all());
+        $course = Course::create($request->all());
+
+        $request->user()->courses()->save($course, ['creator' => true]);
     }
 
     /**

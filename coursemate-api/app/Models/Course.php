@@ -25,4 +25,9 @@ class Course extends Model
     {
         return $this->hasMany('App\Models\StudyGroup');
     }
+
+    public function user()
+    {
+        return $this->belongsToMany('App\Models\Course','user_course')->withTimestamps()->withPivot('creator');
+    }
 }
