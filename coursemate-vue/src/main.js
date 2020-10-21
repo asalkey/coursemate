@@ -33,8 +33,8 @@ const routes = [
     { path: '/password/reset', component: PasswordResetPage,name:'reset',meta: {guest: true} },
     { path: '/register', component: RegisterPage,name:'register',meta: { guest:true} },
     { path: '/dashboard/settings', component: SettingsPage,name:'settings', meta: { user: true } },
-    { path: '/dashboard/studygroups/:id', component: StudyGroupsListPage,name:'showstudygroups', meta: { user: true } },
-    { path: '/dashboard/studygroup', component: AddStudyGroupPage,name:'addstudygroup', meta: { user: true } },
+    { path: '/dashboard/:id/groups', component: StudyGroupsListPage,name:'showstudygroups', meta: { user: true } },
+    { path: '/dashboard/:id/groups/new', component: AddStudyGroupPage,name:'addstudygroup', meta: { user: true } },
     { path: '/dashboard', component: CoursesListPage,name:'showcourses', meta: { user: true } }
 ]
 

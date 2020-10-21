@@ -35,7 +35,7 @@ class CourseController extends Controller
 
         $course = Course::create($request->all());
 
-        $request->user()->courses()->save($course, ['creator' => true]);
+        $request->user()->courses()->save($course);
     }
 
     /**

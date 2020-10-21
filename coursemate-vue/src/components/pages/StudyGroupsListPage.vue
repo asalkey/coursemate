@@ -4,10 +4,19 @@
         <main>
             <div class="container">
                 <div class="d-flex flex-row">
-                    <b-list-group class="list-group mb-3 col-8">
+                    <router-link :to="{ name: 'addstudygroup', params: { id: this.$route.params.id }}">Add study group</router-link>
+                    <b-list-group v-for="studygroup in studygroups" v-bind:key="studygroup.id" class="list-group mb-3 col-8">
                       <b-list-group-item class="d-flex justify-content-between lh-condensed">
                         <div>
-                            <h6 class="my-0">-</h6>
+                            <h6 class="my-0">{{studygroup.description}}</h6>
+                            {{studygroup.notes}}
+                            {{studygroup.address}}
+                            {{studygroup.remote}}
+                            {{studygroup.state}}
+                            {{studygroup.city}}
+                            {{studygroup.link}}
+                            {{studygroup.date}}
+                            {{studygroup.time}}
                             <small class="text-muted">-</small>
                         </div>
                         <b-button :pressed.sync="myToggle" variant="primary">Toggle Me</b-button>

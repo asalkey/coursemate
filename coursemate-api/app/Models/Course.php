@@ -28,6 +28,6 @@ class Course extends Model
 
     public function user()
     {
-        return $this->belongsToMany('App\Models\Course','user_course')->withTimestamps()->withPivot('creator');
+        return $this->belongsToMany('App\Models\Course','user_course')->withTimestamps();
     }
 }

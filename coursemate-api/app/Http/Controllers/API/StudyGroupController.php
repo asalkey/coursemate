@@ -38,19 +38,9 @@ class StudyGroupController extends Controller
            'state' => 'required|min:2|alpha'
         ]);
 
-        $studyGroup = new StudyGroup();
-        $studyGroup->description = $request->description;
-        $studyGroup->notes = $request->notes;
-        $studyGroup->date = $request->date;
-        $studyGroup->time = $request->time;
-        $studyGroup->remote = $request->remote;
-        $studyGroup->link = $request->link;
-        $studyGroup->address = $request->address;
-        $studyGroup->city = $request->city;
-        $studyGroup->state = $request->state;
-        $studyGroup->course_id = 2;
+        $studyGroup = StudyGroup::create($request->all());
 
-        return $request->user()->studygroups()->save($studyGroup);
+        $request->user()->studygroups()->save($studyGroup, ['creator' => true]);
     }
 
     /**

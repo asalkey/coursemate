@@ -49,11 +49,11 @@ class User extends Authenticatable
 
     public function studygroups()
     {
-        return $this->belongsToMany('App\Models\User')->withTimestamps();
+        return $this->belongsToMany('App\Models\StudyGroup','user_study_group')->withTimestamps()->withPivot('creator');
     }
 
     public function courses()
     {
-        return $this->belongsToMany('App\Models\Course','user_course')->withTimestamps()->withPivot('creator');
+        return $this->belongsToMany('App\Models\Course','user_course')->withTimestamps();
     }
 }

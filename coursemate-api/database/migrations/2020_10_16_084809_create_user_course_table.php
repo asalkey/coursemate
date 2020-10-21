@@ -20,7 +20,6 @@ class CreateUserCourseTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('course_id')->references('id')->on('courses');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->boolean('creator');
         });
     }
 

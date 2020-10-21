@@ -98,6 +98,7 @@ export default {
                 notes:'',
                 remote:false,
                 link:'',
+                course_id:this.$route.params.id,
             }
         }
     },
