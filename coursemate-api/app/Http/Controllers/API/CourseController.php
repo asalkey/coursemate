@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Course;
+use App\Models\School;
 
 class CourseController extends Controller
 {
@@ -27,13 +28,12 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-           'name' => 'required',
            'number' => 'required',
         ]);
 
         $request['school_id'] = $request->user()->school_id;
 
-        $course = Course::create($request->all());
+        $course = Course::firstOrCreate($request->all());
 
         $request->user()->courses()->save($course);
     }
@@ -76,5 +76,12 @@ class CourseController extends Controller
         $course->delete($request->all());
 
         return $course;
+    }
+
+    public function search($id)
+    {
+        $school = School::find($id);
+
+        return $school->courses;
     }
 }

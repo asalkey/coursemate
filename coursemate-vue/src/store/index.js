@@ -13,7 +13,8 @@ export default new Vuex.Store({
     courses:null,
     studygroups:null,
     schools:null,
-    user:null
+    user:null,
+    allCourses:null
   },
   mutations: {
     setAuthenticated(state, payload) {
@@ -30,6 +31,9 @@ export default new Vuex.Store({
     },
     setUser(state, payload){
       state.user = payload;
+    },
+    allCourses(state, payload) {
+      state.allCourses = payload;
     },
   },
   actions: {
@@ -48,11 +52,11 @@ export default new Vuex.Store({
             state.commit("setCourses", 'no');
         });
     },
-    setStudyGroups(state){
-        axios.get('/api/studygroups').then(response=>{
-            state.commit("setStudyGroups", response.data);
+    setStudyGroups({commit},payload){
+        axios.get('/api/studygroups/'  + payload.id).then(response=>{
+            commit("setStudyGroups", response.data);
         }).catch(() => {
-            state.commit("setStudyGroups", 'no');
+            commit("setStudyGroups", 'no');
         });
     },
     setSchools(state){
@@ -60,6 +64,13 @@ export default new Vuex.Store({
             state.commit("setSchools", response.data);
         }).catch(() => {
             state.commit("setSchools", 'no');
+        });
+    },
+    allCourses({commit},payload){
+        axios.get('/api/courses/search/' + payload.id).then(response=>{
+            commit("allCourses", response.data);
+        }).catch(() => {
+            commit("allCourses", 'no');
         });
     },
 

@@ -23,6 +23,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('studygroups', App\Http\Controllers\API\StudyGroupController::class);
 
     Route::apiResource('courses', App\Http\Controllers\API\CourseController::class);
+
+    Route::get('/courses/search/{id}', [App\Http\Controllers\API\CourseController::class, 'search']);
 });
 
 

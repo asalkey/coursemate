@@ -5,7 +5,7 @@
             <div class="container">
                 <div class="d-flex flex-row">
                     <div class="mb-3">
-
+                {{schoolCourses}}
                           <b-list-group v-for="course in courses" v-bind:key="course.id" >
                               <li class="d-flex list-group-item justify-content-between lh-condensed">
                                    <router-link tag="div" :to="{ name: 'showstudygroups', params: { id: course.id }}">
@@ -22,16 +22,9 @@
                              <ValidationProvider name="courseID" rules="required" v-slot="validationContext">
                                   <b-form-input list="course-id" v-model="courseData.number" class="form-control" placeholder="Course ID" :state="getValidationState(validationContext)"></b-form-input>
                                   <datalist id="course-id">
-                                    <option v-for="courseID in courseIDs" v-bind:key="courseID.id">{{ courseID }}</option>
+                                    <option v-for="schoolCourse in schoolCourses" v-bind:key="schoolCourse.id">{{ schoolCourse.number }}</option>
                                   </datalist>
                                   <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
-                            </ValidationProvider>
-                            <ValidationProvider name="courseName" rules="required" v-slot="validationContext">
-                              <b-form-input list="course-name" v-model="courseData.name" class="form-control" placeholder="Course Name" :state="getValidationState(validationContext)"></b-form-input>
-                              <datalist id="course-name">
-                                <option v-for="courseName in courseNames" v-bind:key="courseName.id">{{ courseName }}</option>
-                              </datalist>
-                              <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
                             </ValidationProvider>
                           <b-input-group-append>
                             <b-button type="submit" variant="outline-secondary">+ Add</b-button>
@@ -80,11 +73,15 @@ export default {
         },
         user(){
             return this.$store.state.user;
+        },
+        schoolCourses(){
+            return this.$store.state.allCourses;
         }
     },
     mounted() {
         this.$store.dispatch('setAuthenticated');
         this.$store.dispatch('setCourses');
+        this.$store.dispatch('allCourses',{id:3});
     },
     methods:{
         getValidationState({ dirty, validated, valid = null }) {

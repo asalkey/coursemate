@@ -12,9 +12,6 @@ export default {
             page: 'home',
             links: ['home']
         }
-  },
-  mounted() {
-    this.$store.dispatch('setStudyGroups');
   }
 }
 </script>
