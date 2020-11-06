@@ -29,6 +29,6 @@ class StudyGroup extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\Models\User')->withTimestamps();
+        return $this->belongsToMany('App\Models\User','user_study_group')->withTimestamps()->withPivot('creator');
     }
 }

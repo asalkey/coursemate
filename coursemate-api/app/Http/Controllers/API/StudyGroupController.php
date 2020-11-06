@@ -51,7 +51,7 @@ class StudyGroupController extends Controller
      */
     public function show(Request $request,$id)
     {
-        return $request->user()->studygroups()->where('course_id', $id)->get();
+        return StudyGroup::with('users')->get();
     }
 
     /**

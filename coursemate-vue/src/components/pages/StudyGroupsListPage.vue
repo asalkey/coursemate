@@ -19,7 +19,7 @@
                             <p>{{studygroup.date}} {{studygroup.time}}</p>
                         </div>
                             {{studygroup}}
-                        <b-button :pressed.sync="myToggle" variant="primary">Cancel</b-button>
+                        <b-button :pressed.sync="myToggle" variant="primary">{{toggle}}</b-button>
                       </li>
                     </ul>
                 </div>
@@ -49,12 +49,24 @@ export default {
               { caption: 'Near me', state: true },
             ],
             date:null,
-            time:null,
+            time:null
         }
     },
     computed: {
         studygroups: function() {
             return this.$store.state.studygroups;
+        },
+        toggle: function(){
+            let creator = true;
+            let toggleText = 'join';
+
+            if(creator){
+                toggleText = 'cancel';
+            }else if(!creator){
+                toggleText = 'unattend';
+            }
+
+            return toggleText;
         }
     },
     mounted() {

@@ -9,8 +9,7 @@
                           <b-list-group v-for="course in courses" v-bind:key="course.id" >
                               <li class="d-flex list-group-item justify-content-between lh-condensed">
                                    <router-link tag="div" :to="{ name: 'showstudygroups', params: { id: course.id }}">
-                                     <h6 class="my-0">{{course.name}}</h6>
-                                     <small class="text-muted">{{course.number}}</small>
+                                     <h6 class="my-0">{{course.number}}</h6>
                                   </router-link>
                                   <b-icon-trash></b-icon-trash>
                              </li>
@@ -62,7 +61,6 @@ export default {
             courseNames: ['Intro to Javascript', 'Digital Media Capstone', 'Web Development With PHP'],
             courseIDs: ['DGM1322', 'CS150', 'DGM22'],
             courseData:{
-                name:'',
                 number:''
             }
         }
@@ -81,7 +79,7 @@ export default {
     mounted() {
         this.$store.dispatch('setAuthenticated');
         this.$store.dispatch('setCourses');
-        this.$store.dispatch('allCourses',{id:3});
+        this.$store.dispatch('allCourses',{id:this.user.school_id});
     },
     methods:{
         getValidationState({ dirty, validated, valid = null }) {
