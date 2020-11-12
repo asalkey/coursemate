@@ -19,7 +19,7 @@
                             <p>{{studygroup.date}} {{studygroup.time}}</p>
                         </div>
                             {{studygroup}}
-                        <b-button :pressed.sync="myToggle" variant="primary">{{toggle}}</b-button>
+                        <button @click="toggleSubmit(studygroup.id,toggleType)">{{toggle(studygroup.id)}}</button>
                       </li>
                     </ul>
                 </div>
@@ -49,24 +49,24 @@ export default {
               { caption: 'Near me', state: true },
             ],
             date:null,
-            time:null
+            time:null,
+            addData: {
+                date: '',
+                description:'',
+                address:'',
+                time:'',
+                city:'',
+                state:'',
+                notes:'',
+                remote:false,
+                link:'',
+                course_id:this.$route.params.id,
+            }
         }
     },
     computed: {
         studygroups: function() {
             return this.$store.state.studygroups;
-        },
-        toggle: function(){
-            let creator = true;
-            let toggleText = 'join';
-
-            if(creator){
-                toggleText = 'cancel';
-            }else if(!creator){
-                toggleText = 'unattend';
-            }
-
-            return toggleText;
         }
     },
     mounted() {
@@ -81,8 +81,51 @@ export default {
             });
 
         },
-        attend: function(){
-            console.log(this.studygroups);
+        toggle: function(id){
+                let sgIndex = this.studygroups.findIndex(studygroup => studygroup.id == id);
+                let userIndex = this.studygroups[sgIndex].users.findIndex(user => user.id == 1);
+                let isCreator = (userIndex != -1) ? this.studygroups[sgIndex].users[userIndex].pivot.creator : null;
+                let toggleType;
+
+                switch (isCreator) {
+                    case 1:
+                        this.toggleType = 'cancel';
+                        break;
+                    case 2:
+                        this.toggleType = 'unattend';
+                        break;
+                    default:
+                        this.toggleType = 'join';
+                }
+
+
+                return this.toggleType;
+        },
+        toggleSubmit: function(id,type){
+
+            switch (type) {
+                case 'join':
+                    axios.put('/api/studygroups/' + this.$route.params.id,type).then(response=>{
+                        this.toggle(id);
+                    }).catch(error => {
+                            //validation
+                    });
+                    break;
+                case 'unattend':
+                    axios.put('/studygroups/api/studygroups/' + this.$route.params.id,type).then(response=>{
+                        this.toggle(id);
+                    }).catch(error => {
+                            //validation
+                    });
+                    break;
+                case 'cancel':
+                    axios.put('/api/studygroups/' + this.$route.params.id,{data:'cancel'}).then(response=>{
+                       this.toggle(id);
+                    }).catch(error => {
+                            console.log(error);
+                    });
+            }
+
 
         }
 

@@ -61,12 +61,25 @@ class StudyGroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
         $studyGroup = StudyGroup::findOrFail($id);
-        $studyGroup->update($request->all());
+
+        switch ($request->data) {
+            case 'cancel':
+                $studyGroup->delete($request->all());
+                break;
+            case 'unattend':
+                $request->user()->studygroups()->delete($studyGroup);
+                break;
+            case 'join':
+                $request->user()->studygroups()->save($studyGroup, ['creator' => false]);
+                break;
+        }
+
 
         return $studyGroup;
+
     }
 
     /**

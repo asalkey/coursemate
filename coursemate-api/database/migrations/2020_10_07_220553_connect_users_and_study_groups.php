@@ -19,8 +19,8 @@ class ConnectUsersAndStudyGroups extends Migration
             $table->timestamps();
             $table->bigInteger('study_group_id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
-            $table->foreign('study_group_id')->references('id')->on('study_groups');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('study_group_id')->references('id')->on('study_groups')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->boolean('creator');
         });
 
