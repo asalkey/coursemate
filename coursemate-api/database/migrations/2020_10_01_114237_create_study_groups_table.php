@@ -21,10 +21,10 @@ class CreateStudyGroupsTable extends Migration
             $table->date('date');
             $table->time('time');
             $table->boolean('remote');
-            $table->string('link');
-            $table->string('address');
-            $table->string('city');
-            $table->string('state');
+            $table->string('link')->nullable();
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
         });
     }
 

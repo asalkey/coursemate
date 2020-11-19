@@ -8,18 +8,20 @@
                     <ul v-for="studygroup in studygroups" v-bind:key="studygroup.id">
                       <li class="list-group-item d-flex justify-content-between lh-condensed">
                         <div>
-                            <h6 class="my-0">{{studygroup.description}}</h6>
-                            <p>{{studygroup.notes}}</p>
-                            <template v-if="studygroup.remote">
-                                <p>{{studygroup.link}}</p>
-                            </template>
-                            <template v-else>
-                                <p>{{studygroup.address}} {{studygroup.state}},{{studygroup.city}} </p>
-                            </template>
-                            <p>{{studygroup.date}} {{studygroup.time}}</p>
+                            <p>{{studygroup.description}}</p>
+                            <span v-if="check == 'leave' || check == 'cancel'">
+                                <p><span>Notes: </span>{{studygroup.notes}}</p>
+                                <template v-if="studygroup.remote">
+                                    <a href="studygroup.link">{{studygroup.link}}</a>
+                                </template>
+                                <template v-else>
+                                    <p><span>Address: </span> {{studygroup.address}} {{studygroup.state}},{{studygroup.city}} </p>
+                                </template>
+                                <p><span>Time: </span> {{studygroup.date}}</p>
+                                <p><span>Date: </span> {{studygroup.time}} </p>
+                            </span>
                         </div>
-                            {{studygroup}}
-                        <button @click="toggleSubmit(studygroup.id,toggleType)">{{toggle(studygroup.id)}}</button>
+                        <button class="btn btn-success" @click="toggleSubmit(studygroup.id,toggleType)">{{toggle(studygroup.id)}}</button>
                       </li>
                     </ul>
                 </div>
@@ -49,7 +51,7 @@ export default {
               { caption: 'Near me', state: true },
             ],
             date:null,
-            time:null,
+            check:null,
             addData: {
                 date: '',
                 description:'',
@@ -67,23 +69,18 @@ export default {
     computed: {
         studygroups: function() {
             return this.$store.state.studygroups;
+        },
+        user(){
+            return this.$store.state.user;
         }
     },
     mounted() {
         this.$store.dispatch('setStudyGroups',{id:this.$route.params.id});
     },
     methods:{
-        logout: function(){
-            axios.post('/logout').then(response=>{
-                this.$router.push({name:'home'});
-            }).catch(error => {
-                    //validation
-            });
-
-        },
         toggle: function(id){
                 let sgIndex = this.studygroups.findIndex(studygroup => studygroup.id == id);
-                let userIndex = this.studygroups[sgIndex].users.findIndex(user => user.id == 1);
+                let userIndex = this.studygroups[sgIndex].users.findIndex(user => user.id == this.user.id);
                 let isCreator = (userIndex != -1) ? this.studygroups[sgIndex].users[userIndex].pivot.creator : null;
                 let toggleType;
 
@@ -91,35 +88,37 @@ export default {
                     case 1:
                         this.toggleType = 'cancel';
                         break;
-                    case 2:
-                        this.toggleType = 'unattend';
+                    case 0:
+                        this.toggleType = 'leave';
                         break;
                     default:
                         this.toggleType = 'join';
                 }
 
-
+                this.check = this.toggleType;
                 return this.toggleType;
         },
         toggleSubmit: function(id,type){
-
             switch (type) {
                 case 'join':
-                    axios.put('/api/studygroups/' + this.$route.params.id,type).then(response=>{
+                    axios.put(`/api/studygroups/${id}`,{data:type}).then(response=>{
+                        this.$store.dispatch('setStudyGroups',{id:this.$route.params.id});
                         this.toggle(id);
                     }).catch(error => {
                             //validation
                     });
                     break;
-                case 'unattend':
-                    axios.put('/studygroups/api/studygroups/' + this.$route.params.id,type).then(response=>{
+                case 'leave':
+                    axios.put(`/api/studygroups/${id}`,{data:type}).then(response=>{
+                        this.$store.dispatch('setStudyGroups',{id:this.$route.params.id});
                         this.toggle(id);
                     }).catch(error => {
                             //validation
                     });
                     break;
                 case 'cancel':
-                    axios.put('/api/studygroups/' + this.$route.params.id,{data:'cancel'}).then(response=>{
+                    axios.put(`/api/studygroups/${id}`,{data:type}).then(response=>{
+                       this.$store.dispatch('setStudyGroups',{id:this.$route.params.id});
                        this.toggle(id);
                     }).catch(error => {
                             console.log(error);

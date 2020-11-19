@@ -25,35 +25,39 @@
                                 </ValidationProvider>
                             </div>
                             <div class="form-group">
-                                    <b-form-checkbox v.model="remote" >Remote?</b-form-checkbox>
+                                    <b-form-checkbox v-model="addData.remote" >Remote?</b-form-checkbox>
                             </div>
-                            <div class="form-group">
-                                <ValidationProvider name="link" rules="required" v-slot="validationContext">
-                                    <b-form-input type="url" v-model="addData.link" placeholder="zoom link" :state="getValidationState(validationContext)"></b-form-input>
-                                    <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
-                                </ValidationProvider>
-                            </div>
-                            <div class="form-group">
-                                <ValidationProvider name="address" rules="required" v-slot="validationContext">
-                                    <b-form-input type="text" v-model="addData.address" placeholder="address" :state="getValidationState(validationContext)"></b-form-input>
-                                    <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
-                                </ValidationProvider>
-                            </div>
-                            <div class="form-group">
-                                <ValidationProvider name="city" rules="required" v-slot="validationContext">
-                                    <b-form-input type="text" v-model="addData.city" placeholder="city" :state="getValidationState(validationContext)"></b-form-input>
-                                    <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
-                                </ValidationProvider>
-                            </div>
-                            <div class="form-group">
-                                <ValidationProvider name="state" rules="required" v-slot="validationContext">
-                                    <b-form-input type="text" v-model="addData.state" placeholder="state" :state="getValidationState(validationContext)"></b-form-input>
-                                    <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
-                                 </ValidationProvider>
-                            </div>
+                            <span v-if="addData.remote">
+                                <div class="form-group">
+                                    <ValidationProvider name="link" :rules="`${addData.remote ? 'required' : ''}`" v-slot="validationContext">
+                                        <b-form-input type="url" v-model="addData.link" placeholder="zoom link" :state="getValidationState(validationContext)"></b-form-input>
+                                        <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
+                                    </ValidationProvider>
+                                </div>
+                            </span>
+                            <span v-else>
+                                <div class="form-group">
+                                    <ValidationProvider name="address" :rules="`${!addData.remote ? 'required' : ''}`" v-slot="validationContext">
+                                        <b-form-input type="text" v-model="addData.address" placeholder="address" :state="getValidationState(validationContext)"></b-form-input>
+                                        <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
+                                    </ValidationProvider>
+                                </div>
+                                <div class="form-group">
+                                    <ValidationProvider name="city" :rules="`${!addData.remote ? 'required' : ''}`" v-slot="validationContext">
+                                        <b-form-input type="text" v-model="addData.city" placeholder="city" :state="getValidationState(validationContext)"></b-form-input>
+                                        <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
+                                    </ValidationProvider>
+                                </div>
+                                <div class="form-group">
+                                    <ValidationProvider name="state" :rules="`${!addData.remote ? 'required' : ''}`" v-slot="validationContext">
+                                        <b-form-input type="text" v-model="addData.state" placeholder="state" :state="getValidationState(validationContext)"></b-form-input>
+                                        <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
+                                     </ValidationProvider>
+                                </div>
+                            </span>
                             <div class="form-group">
                                 <ValidationProvider name="notes" rules="required" v-slot="validationContext">
-                                    <b-form-textarea v-model="addData.notes" :state="getValidationState(validationContext)"></b-form-textarea>
+                                    <b-form-textarea placeholder="notes" v-model="addData.notes" :state="getValidationState(validationContext)"></b-form-textarea>
                                     <div class="invalid-feedback" >{{ validationContext.errors[0] }}</div>
                                 </ValidationProvider>
                             </div>
@@ -108,7 +112,7 @@ export default {
         },
         onSubmit: function(){
             axios.post('/api/studygroups',this.addData).then(response=>{
-                console.log(response);
+                this.$router.push({name:'showstudygroups'});
             }).catch(error => {
                 this.$refs.form.setErrors(error.response.data.errors);
                 return;

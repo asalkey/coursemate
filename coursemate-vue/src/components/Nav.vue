@@ -7,9 +7,9 @@
                 <li class="nav-item"><router-link :to='{name: "register"}' class='nav-link'> Register  </router-link></li>
             </template>
             <template v-else>
-                <li class="nav-item"><router-link :to='{name: "dashboard"}' class='nav-link'>Dashboard</router-link></li>
+                <li class="nav-item"><router-link :to='{name: "showcourses"}' class='nav-link'>Dashboard</router-link></li>
                 <li class="nav-item"><router-link :to='{name: "settings"}' class='nav-link'>Settings</router-link></li>
-                <li class="nav-item"><router-link :to='{name: "logout"}' class='nav-link'>Logout</router-link></li>
+                <li class="nav-item"><a class='nav-link' href="#" @click='logout'>Logout</a></li>
             </template>
         </ul>
     </nav>
@@ -24,11 +24,18 @@ axios.defaults.baseURL = 'http://localhost:8000';
 
 export default {
     computed:{
-        ...mapGetters(["getAuthenticated"]),
-        ...mapActions(["setAuthenticated"])
+        ...mapGetters(["getAuthenticated"])
     },
-    mounted() {
-        this.setAuthenticated;
+    method:{
+        logout: function(){
+            axios.post('/logout').then(response=>{
+                this.$router.push({name:'home'});
+            }).catch(error => {
+                    //validation
+            });
+
+        }
     }
+
 }
 </script>

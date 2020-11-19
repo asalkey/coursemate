@@ -3,7 +3,6 @@ import App from './App.vue'
 import VueRouter from 'vue-router';
 import store from './store';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-
 import HomePage from './components/pages/HomePage.vue';
 import LoginPage from './components/pages/LoginPage.vue';
 import RegisterPage from './components/pages/RegisterPage.vue';
@@ -13,6 +12,7 @@ import CoursesListPage from './components/pages/CoursesListPage.vue';
 import StudyGroupsListPage from './components/pages/StudyGroupsListPage.vue';
 import AddStudyGroupPage from './components/pages/AddStudyGroupPage.vue';
 
+import  './assets/styles/custom.css';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
@@ -28,7 +28,7 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
 const routes = [
-    { path: '/', component: HomePage,name:'home',meta: {guest: true} },
+    { path: '/', component: HomePage,name:'home'},
     { path: '/login', component: LoginPage,name:'login',meta: {guest: true} },
     { path: '/password/reset', component: PasswordResetPage,name:'reset',meta: {guest: true} },
     { path: '/register', component: RegisterPage,name:'register',meta: { guest:true} },
@@ -43,33 +43,6 @@ const router = new VueRouter({
     mode:'history'
 })
 
-function isLoggedIn() {
-  return store.getters.getAuthenticated;
-}
-
-router.beforeEach((to, from, next) => {
-  let isLoggedIn = true;
-
-  if (to.matched.some(record => record.meta.user)) {
-    if (!isLoggedIn) {
-      next({
-        name: 'home',
-      })
-    } else {
-      next()
-    }
-  } else if (to.matched.some(record => record.meta.guest)) {
-    if (isLoggedIn) {
-      next({
-        name: 'showcourses',
-      })
-    } else {
-      next()
-    }
-  } else {
-    next() // make sure to always call next()!
-  }
-})
 
 
 

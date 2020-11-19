@@ -5,6 +5,7 @@
 </template>
 
 <script>
+//PASS USER DATA HERE!!
 export default {
   name: 'app',
   data: function (){
@@ -12,10 +13,10 @@ export default {
             page: 'home',
             links: ['home']
         }
+  },
+  mounted() {
+    this.$store.dispatch('setAuthenticated');
   }
 }
 </script>
-<style>
-  @import './assets/styles/custom.css';
-</style>
 

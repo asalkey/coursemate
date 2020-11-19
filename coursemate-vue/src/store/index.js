@@ -9,7 +9,7 @@ axios.defaults.baseURL = 'http://localhost:8000';
 
 export default new Vuex.Store({
   state: {
-    authenticated: false,
+    authenticated: null,
     courses:null,
     studygroups:null,
     schools:null,
@@ -49,14 +49,14 @@ export default new Vuex.Store({
         axios.get('/api/courses').then(response=>{
             state.commit("setCourses", response.data);
         }).catch(() => {
-            state.commit("setCourses", 'no');
+            state.commit("setCourses", false);
         });
     },
     setStudyGroups({commit},payload){
         axios.get('/api/studygroups/'  + payload.id).then(response=>{
             commit("setStudyGroups", response.data);
         }).catch(() => {
-            commit("setStudyGroups", 'no');
+            commit("setStudyGroups", false);
         });
     },
     setSchools(state){
@@ -76,7 +76,7 @@ export default new Vuex.Store({
 
   },
   getters: {
-    getAuthenticated: state => state.authenticated,
+    getAuthenticated: (state) => state.authenticated,
     getCourse(state) {
         return function (school_id) {
              return state.products.find(course => course.school_id == school_id);

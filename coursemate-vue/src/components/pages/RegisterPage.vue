@@ -7,7 +7,7 @@
                 <div class="d-md-flex align-items-center h-100 p-5 text-center justify-content-center">
                     <div class="logoarea pt-5 pb-5">
                           <a class="navbar-brand" href="/" aria-label="Bootstrap"> <img src="https://image.flaticon.com/icons/svg/2232/2232688.svg" style="width:5%">Coursemate </a>
-                          <img class="img-fluid" src="@/assets/images/2785836.jpg"/>
+                          <img class="img-fluid" src="@/assets/images/2785837.png"/>
                     </div>
                 </div>
             </div>

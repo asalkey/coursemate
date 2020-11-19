@@ -1,24 +1,25 @@
+<!---- REMOVE AUTO COMPLETE ON COURSE LIST --->
+
 <template>
     <div class="dashboard">
         <Header></Header>
         <main>
             <div class="container">
                 <div class="d-flex flex-row">
-                    <div class="mb-3">
-                {{schoolCourses}}
+                    <div class="mb-3 col-12">
                           <b-list-group v-for="course in courses" v-bind:key="course.id" >
                               <li class="d-flex list-group-item justify-content-between lh-condensed">
                                    <router-link tag="div" :to="{ name: 'showstudygroups', params: { id: course.id }}">
                                      <h6 class="my-0">{{course.number}}</h6>
                                   </router-link>
-                                  <b-icon-trash></b-icon-trash>
+                                  <b-icon-trash @click='deleteCourse(course.id)'></b-icon-trash>
                              </li>
                         </b-list-group>
 
                     <ValidationObserver ref="form" v-slot="{ handleSubmit }">
                       <form class="card p-2" @submit.prevent="handleSubmit(onSubmit)">
                         <b-input-group>
-                             <ValidationProvider name="courseID" rules="required" v-slot="validationContext">
+                             <ValidationProvider name="courseID" rules="required" v-slot="validationContext" class="col-11">
                                   <b-form-input list="course-id" v-model="courseData.number" class="form-control" placeholder="Course ID" :state="getValidationState(validationContext)"></b-form-input>
                                   <datalist id="course-id">
                                     <option v-for="schoolCourse in schoolCourses" v-bind:key="schoolCourse.id">{{ schoolCourse.number }}</option>
@@ -56,10 +57,6 @@ export default {
     components:{Header,BListGroup,ValidationProvider,ValidationObserver},
     data:function(){
         return {
-            courseName:'',
-            courseID:'',
-            courseNames: ['Intro to Javascript', 'Digital Media Capstone', 'Web Development With PHP'],
-            courseIDs: ['DGM1322', 'CS150', 'DGM22'],
             courseData:{
                 number:''
             }
@@ -77,9 +74,11 @@ export default {
         }
     },
     mounted() {
-        this.$store.dispatch('setAuthenticated');
         this.$store.dispatch('setCourses');
-        this.$store.dispatch('allCourses',{id:this.user.school_id});
+
+        setTimeout(() => this.$store.dispatch('allCourses',{id:this.user.school_id}) , 3000);
+
+
     },
     methods:{
         getValidationState({ dirty, validated, valid = null }) {
@@ -87,12 +86,18 @@ export default {
         },
         onSubmit: function(){
             axios.post('/api/courses',this.courseData).then(response=>{
-                console.log(response);
+                this.$store.dispatch('setCourses');
             }).catch(error => {
                 this.$refs.form.setErrors(error.response.data.errors);
                 return;
             });
 
+        },
+        deleteCourse: function(id){
+            axios.delete(`/api/courses/${id}`).then(response=>{
+                this.$store.dispatch('setCourses');
+            }).catch(error => {
+            });
         }
     }
 }

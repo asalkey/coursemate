@@ -70,12 +70,11 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $course = Course::findOrFail($id);
-        $course->delete($request->all());
 
-        return $course;
+        $request->user()->courses()->detach($id);
+
     }
 
     public function search($id)

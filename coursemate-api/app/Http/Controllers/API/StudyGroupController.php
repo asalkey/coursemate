@@ -31,11 +31,10 @@ class StudyGroupController extends Controller
            'notes' => 'required',
            'date' => 'required|date',
            'time' => 'required',
-           'remote' => 'required|boolean',
-           'link' => 'required|url',
-           'address' => 'required',
-           'city' => 'required|alpha',
-           'state' => 'required|min:2|alpha'
+           'link' => 'required_if:remote,true|url',
+           'address' => 'required_if:remote,false',
+           'city' => 'required_if:remote,false|nullable|alpha',
+           'state' => 'required_if:remote,false|nullable|min:2|alpha'
         ]);
 
         $studyGroup = StudyGroup::create($request->all());
@@ -51,7 +50,7 @@ class StudyGroupController extends Controller
      */
     public function show(Request $request,$id)
     {
-        return StudyGroup::with('users')->get();
+        return StudyGroup::with('users')->where('course_id', '=', $id)->get();
     }
 
     /**
@@ -70,7 +69,7 @@ class StudyGroupController extends Controller
                 $studyGroup->delete($request->all());
                 break;
             case 'unattend':
-                $request->user()->studygroups()->delete($studyGroup);
+                $request->user()->studygroups()->detach($id);
                 break;
             case 'join':
                 $request->user()->studygroups()->save($studyGroup, ['creator' => false]);

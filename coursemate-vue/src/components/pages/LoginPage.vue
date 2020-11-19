@@ -10,7 +10,7 @@
         </div>
         <div class="col-md-6 p-0 bg-white h-md-100 loginarea">
             <div class="d-md-flex align-items-center h-md-100 p-5 justify-content-center">
-                <div class="p-5">s</div>
+
                 <ValidationObserver v-slot="{ invalid }">
                     <form class="p-5" @submit.prevent="login">
                         <h3 class="mb-4 text-center">Sign In</h3>
@@ -75,7 +75,7 @@ export default {
             axios.get('/sanctum/csrf-cookie').then(response => {
                axios.post('/login',this.formData)
                .then(response=>{
-                    this.$router.push({name:'dashboard'});
+                    this.$router.push({name:'showcourses'});
                }).catch(error => {
                     //validation
 
