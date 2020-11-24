@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 import axios from 'axios';
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:8000';
+axios.defaults.baseURL = '/app';
 
 export default new Vuex.Store({
   state: {
