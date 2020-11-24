@@ -55,7 +55,7 @@ extend('email', {
 
 import axios from 'axios';
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = '/app';
+axios.defaults.baseURL = 'http://68.183.127.208/app';
 
 export default {
     name: 'LoginPage',
