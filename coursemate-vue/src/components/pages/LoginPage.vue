@@ -72,14 +72,14 @@ export default {
     },
     methods:{
         login: function(){
-            axios.get('/sanctum/csrf-cookie').then(response => {
-               axios.post('/login',this.formData)
-               .then(response=>{
+            this.$store.dispatch('login',this.formData).then((res) => {
+                this.$store.dispatch('setUser').then((res) => {
                     this.$router.push({name:'showcourses'});
-               }).catch(error => {
-                    //validation
-
+                }).catch((error) => {
+                    alert(error)
                 });
+            }).catch((error) => {
+              alert(error)
             });
         }
     }

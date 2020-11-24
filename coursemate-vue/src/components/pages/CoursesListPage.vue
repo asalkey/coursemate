@@ -1,9 +1,8 @@
-<!---- REMOVE AUTO COMPLETE ON COURSE LIST --->
-
 <template>
     <div class="dashboard">
         <Header></Header>
         <main>
+        {{user}}
             <div class="container">
                 <div class="d-flex flex-row">
                     <div class="mb-3 col-12">
@@ -20,7 +19,7 @@
                       <form class="card p-2" @submit.prevent="handleSubmit(onSubmit)">
                         <b-input-group>
                              <ValidationProvider name="courseID" rules="required" v-slot="validationContext" class="col-11">
-                                  <b-form-input list="course-id" v-model="courseData.number" class="form-control" placeholder="Course ID" :state="getValidationState(validationContext)"></b-form-input>
+                                  <b-form-input list="course-id" v-model="courseData.number" class="form-control" placeholder="Course ID" :state="getValidationState(validationContext)" autocomplete="off"></b-form-input>
                                   <datalist id="course-id">
                                     <option v-for="schoolCourse in schoolCourses" v-bind:key="schoolCourse.id">{{ schoolCourse.number }}</option>
                                   </datalist>
@@ -62,21 +61,19 @@ export default {
             }
         }
     },
+    props: ['user'],
     computed: {
         courses(){
             return this.$store.state.courses;
-        },
-        user(){
-            return this.$store.state.user;
         },
         schoolCourses(){
             return this.$store.state.allCourses;
         }
     },
-    mounted() {
+    created() {
         this.$store.dispatch('setCourses');
 
-        setTimeout(() => this.$store.dispatch('allCourses',{id:this.user.school_id}) , 3000);
+        this.$store.dispatch('allCourses');
 
 
     },

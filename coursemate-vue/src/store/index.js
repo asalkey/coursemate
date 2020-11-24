@@ -14,6 +14,7 @@ export default new Vuex.Store({
     studygroups:null,
     schools:null,
     user:null,
+    apple:'hey',
     allCourses:null
   },
   mutations: {
@@ -37,13 +38,34 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    setAuthenticated(state) {
-        axios.get('/api/user').then(response=>{
-            state.commit("setAuthenticated", true);
-            state.commit("setUser", response.data);
-        }).catch(() => {
-            state.commit("setAuthenticated", false);
-        });
+    async login({dispatch},payload){
+        await axios.get('/sanctum/csrf-cookie');
+        await axios.post('/login',payload);
+    },
+    async logout({dispatch},payload){
+        try{
+            await axios.get('/sanctum/csrf-cookie');
+            await axios.post('/login',payload);
+        }catch(error){
+            console.log(error);
+        }
+    },
+    async register({dispatch},payload){
+        try{
+            await axios.get('/sanctum/csrf-cookie');
+            await axios.post('/login',payload);
+        }catch(error){
+            console.log(error);
+        }
+    },
+    async setUser({commit}) {
+        try{
+            let response = await axios.get('/api/user');
+            commit("setAuthenticated", true);
+            commit("setUser", response.data);
+        }catch{
+            commit("setAuthenticated",false);
+        }
     },
     setCourses(state){
         axios.get('/api/courses').then(response=>{
@@ -66,12 +88,9 @@ export default new Vuex.Store({
             state.commit("setSchools", 'no');
         });
     },
-    allCourses({commit},payload){
-        axios.get('/api/courses/search/' + payload.id).then(response=>{
-            commit("allCourses", response.data);
-        }).catch(() => {
-            commit("allCourses", 'no');
-        });
+    async allCourses({state,commit},payload){
+       let response = await axios.get('/api/courses/search/' +  state.user.school_id);
+       commit("allCourses", response.data);
     },
 
   },

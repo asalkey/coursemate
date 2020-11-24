@@ -43,11 +43,16 @@ const router = new VueRouter({
     mode:'history'
 })
 
+router.beforeEach((to, from, next) => {
+    console.log("router");
 
+  next()
+})
 
-
-new Vue({
-  render: h => h(App),
-  router: router,
-  store: store
-}).$mount('#app')
+store.dispatch('setUser').then(()=>{
+    new Vue({
+      render: h => h(App),
+      router: router,
+      store: store,
+    }).$mount('#app')
+});

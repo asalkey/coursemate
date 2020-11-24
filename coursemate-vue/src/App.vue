@@ -1,11 +1,10 @@
 <template>
 
- <router-view></router-view>
+ <router-view :user="user"></router-view>
 
 </template>
 
 <script>
-//PASS USER DATA HERE!!
 export default {
   name: 'app',
   data: function (){
@@ -14,8 +13,13 @@ export default {
             links: ['home']
         }
   },
-  mounted() {
-    this.$store.dispatch('setAuthenticated');
+  computed: {
+    user(){
+        return this.$store.state.user;
+    }
+  },
+  created() {
+    console.log('test');
   }
 }
 </script>

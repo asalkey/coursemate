@@ -99,32 +99,13 @@ export default {
                 return this.toggleType;
         },
         toggleSubmit: function(id,type){
-            switch (type) {
-                case 'join':
-                    axios.put(`/api/studygroups/${id}`,{data:type}).then(response=>{
-                        this.$store.dispatch('setStudyGroups',{id:this.$route.params.id});
-                        this.toggle(id);
-                    }).catch(error => {
-                            //validation
-                    });
-                    break;
-                case 'leave':
-                    axios.put(`/api/studygroups/${id}`,{data:type}).then(response=>{
-                        this.$store.dispatch('setStudyGroups',{id:this.$route.params.id});
-                        this.toggle(id);
-                    }).catch(error => {
-                            //validation
-                    });
-                    break;
-                case 'cancel':
-                    axios.put(`/api/studygroups/${id}`,{data:type}).then(response=>{
-                       this.$store.dispatch('setStudyGroups',{id:this.$route.params.id});
-                       this.toggle(id);
-                    }).catch(error => {
-                            console.log(error);
-                    });
-            }
 
+                axios.put(`/api/studygroups/${id}`,{data:type}).then(response=>{
+                    this.$store.dispatch('setStudyGroups',{id:this.$route.params.id});
+                    this.toggle(id);
+                }).catch(error => {
+                        //validation
+                });
 
         }
 
