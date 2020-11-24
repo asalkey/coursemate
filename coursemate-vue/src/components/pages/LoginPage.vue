@@ -52,11 +52,6 @@ extend('email', {
   message: 'This field must be a valid email'
 });
 
-
-import axios from 'axios';
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://68.183.127.208/app';
-
 export default {
     name: 'LoginPage',
     data:function(){

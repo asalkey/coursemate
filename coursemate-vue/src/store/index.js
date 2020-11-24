@@ -3,9 +3,7 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
-import axios from 'axios';
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://68.183.127.208/app';
+import * as app from './../api.js';
 
 export default new Vuex.Store({
   state: {
@@ -39,28 +37,28 @@ export default new Vuex.Store({
   },
   actions: {
     async login({dispatch},payload){
-        await axios.get('/sanctum/csrf-cookie');
-        await axios.post('/login',payload);
+        await app.instance.get('/sanctum/csrf-cookie');
+        await app.instance.post('/login',payload);
     },
     async logout({dispatch},payload){
         try{
-            await axios.get('/sanctum/csrf-cookie');
-            await axios.post('/login',payload);
+            await app.instance.get('/sanctum/csrf-cookie');
+            await app.instance.post('/login',payload);
         }catch(error){
             console.log(error);
         }
     },
     async register({dispatch},payload){
         try{
-            await axios.get('/sanctum/csrf-cookie');
-            await axios.post('/login',payload);
+            await app.instance.get('/sanctum/csrf-cookie');
+            await app.instance.post('/login',payload);
         }catch(error){
             console.log(error);
         }
     },
     async setUser({commit}) {
         try{
-            let response = await axios.get('/api/user');
+            let response = await app.instance.get('/api/user');
             commit("setAuthenticated", true);
             commit("setUser", response.data);
         }catch{
@@ -68,28 +66,28 @@ export default new Vuex.Store({
         }
     },
     setCourses(state){
-        axios.get('/api/courses').then(response=>{
+        app.instance.get('/api/courses').then(response=>{
             state.commit("setCourses", response.data);
         }).catch(() => {
             state.commit("setCourses", false);
         });
     },
     setStudyGroups({commit},payload){
-        axios.get('/api/studygroups/'  + payload.id).then(response=>{
+        app.instance.get('/api/studygroups/'  + payload.id).then(response=>{
             commit("setStudyGroups", response.data);
         }).catch(() => {
             commit("setStudyGroups", false);
         });
     },
     setSchools(state){
-        axios.get('/api/schools').then(response=>{
+        app.instance.get('/api/schools').then(response=>{
             state.commit("setSchools", response.data);
         }).catch(() => {
             state.commit("setSchools", 'no');
         });
     },
     async allCourses({state,commit},payload){
-       let response = await axios.get('/api/courses/search/' +  state.user.school_id);
+       let response = await app.instance.get('/api/courses/search/' +  state.user.school_id);
        commit("allCourses", response.data);
     },
 
