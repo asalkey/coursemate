@@ -16,7 +16,7 @@
                         <h3 class="mb-4 text-center">Sign In</h3>
                         <div class="form-group">
                             <ValidationProvider name="E-mail" rules="required|email" v-slot="{ errors }">
-                                <input type="email" class="form-control" v-model="formData.email" placeholder="you@example.com" required="required">
+                                <input type="email" class="form-control" v-model="formData.email" placeholder="Jane Doe" required="required">
                                 <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
                             </ValidationProvider>
                         </div>

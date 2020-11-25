@@ -35,9 +35,10 @@ class SchoolController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function search($school)
     {
-        return School::find($id);
+        return School::where('name', 'like', "%" . $school . "%")->limit(10)->get();
+
     }
 
     /**

@@ -16,52 +16,52 @@
 
             <div class="col-md-6 p-0 bg-white h-md-100 loginarea">
                 <div class="d-md-flex align-items-center h-md-100 p-5 justify-content-center">
-                  <ValidationObserver v-slot="{ invalid }">
-                      <form class="needs-validation" novalidate="" @submit.prevent="register">
-                        <div class="mb-3">
-                          <label for="name">Name</label>
-                          <ValidationProvider name="Name" rules="required" v-slot="{ errors }">
-                            <input type="name" class="form-control" v-model="formData.name" placeholder="you@example.com">
-                            <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
-                          </ValidationProvider>
-                        </div>
+                     <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+                        <form @submit.prevent="handleSubmit(onSubmit)">
+                            <div class="form-group">
+                              <label for="name">Name</label>
+                               <ValidationProvider name="name" rules="required" v-slot="validationContext">
+                                    <b-form-input type="text" v-model="formData.name" placeholder="Jane Doe" :state="getValidationState(validationContext)"></b-form-input>
+                                    <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
+                                </ValidationProvider>
+                            </div>
 
-                        <div class="mb-3">
-                          <label for="email">Email</label>
-                          <ValidationProvider name="Email" rules="required|email" v-slot="{ errors }">
-                            <input type="email" class="form-control" v-model="formData.email" placeholder="you@example.com">
-                            <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
-                          </ValidationProvider>
-                        </div>
+                            <div class="form-group">
+                              <label for="email">Email</label>
+                               <ValidationProvider name="email" rules="required" v-slot="validationContext">
+                                    <b-form-input type="email" v-model="formData.email" placeholder="you@example.com" :state="getValidationState(validationContext)"></b-form-input>
+                                    <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
+                                </ValidationProvider>
+                            </div>
 
-                        <div class="mb-3">
-                          <label for="password">Password</label>
-                          <ValidationProvider name="Password" rules="required" v-slot="{ errors }">
-                            <input type="password" class="form-control" v-model="formData.password" required="">
-                            <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
-                          </ValidationProvider>
-                        </div>
+                            <div class="form-group">
+                              <label for="password">Password</label>
+                              <ValidationProvider name="password" rules="required" v-slot="validationContext">
+                                <b-form-input type="password" v-model="formData.password"  :state="getValidationState(validationContext)"></b-form-input>
+                                <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
+                               </ValidationProvider>
+                            </div>
 
-                        <div class="mb-3">
-                          <label for="password_confirmation">Confirm Password</label>
-                          <ValidationProvider name="Confirm Password" rules="required" v-slot="{ errors }">
-                              <input type="password" class="form-control" v-model="formData.password_confirmation" required="">
-                              <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
-                          </ValidationProvider>
-                        </div>
+                            <div class="form-group">
+                              <label for="password_confirmation">Confirm Password</label>
+                              <ValidationProvider name="password_confirmation" rules="required" v-slot="validationContext">
+                                    <b-form-input type="password" v-model="formData.password_confirmation"  :state="getValidationState(validationContext)"></b-form-input>
+                                    <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
+                                </ValidationProvider>
+                            </div>
 
 
-                        <div class="mb-3">
-                          <label for="school">School</label>
-                          <ValidationProvider name="School" rules="required" v-slot="{ errors }">
-                              <b-form-input list="schools-list" v-model="schoolInput" :data-id="0" class="schools" placeholder="enter your school's name..."></b-form-input>
-                              <datalist id="schools-list">
-                                <option v-for="school in schools" v-bind:key="school.id" :data-id="school.id" :value="school.name">{{ school.name }}</option>
-                              </datalist>
-                              <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
-                          </ValidationProvider>
-                        </div>
-                        <button class="btn btn-primary btn-lg btn-block" type="submit" :disabled="invalid">Register</button>
+                            <div class="mb-3">
+                              <label for="school">School</label>
+                              <ValidationProvider name="School" rules="required" v-slot="{ errors }">
+                                  <b-form-input list="schools-list" @keyup="schoolSearch" v-model="schoolInput" :data-id="0" class="schools" placeholder="enter your school's name..."></b-form-input>
+                                  <datalist id="schools-list">
+                                    <option v-for="school in schools" v-bind:key="school.id" :data-id="school.id" :value="school.name">{{ school.name }}</option>
+                                  </datalist>
+                                  <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
+                              </ValidationProvider>
+                            </div>
+                            <button class="btn btn-primary btn-lg btn-block" type="submit" >Register</button>
                       </form>
                     </ValidationObserver>
                 </div>
@@ -74,16 +74,6 @@
 import { ValidationProvider,ValidationObserver} from 'vee-validate';
 import { extend } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
-
-// Add the required rule
-extend('required', {
-  ...required,
-  message: 'This field is required'
-});
-
-import axios from 'axios';
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:8000';
 
 export default {
     name: 'PasswordResetPage',
@@ -121,20 +111,24 @@ export default {
             }
         },
     },
-    mounted() {
-        this.$store.dispatch('setSchools');
-    },
     methods:{
+        getValidationState({ dirty, validated, valid = null }) {
+            return dirty || validated ? valid : null;
+        },
         register: function(){
-            axios.get('/sanctum/csrf-cookie').then(response => {
-               axios.post('/register',this.formData)
-               .then(response=>{
+            this.$store.dispatch('register',this.formData).then((res) => {
+                this.$store.dispatch('setUser').then((res) => {
                     this.$router.push({name:'showcourses'});
-               }).catch(error => {
-                    //validation
-
+                }).catch((error) => {
+                    alert(error)
                 });
+            }).catch((error) => {
+              alert(error)
             });
+        },
+        schoolSearch: function(term){
+            this.$store.dispatch('schoolSearch', this.schoolInput);
+            console.log(this.schools);
         }
     }
 }

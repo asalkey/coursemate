@@ -27,6 +27,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/courses/search/{id}', [App\Http\Controllers\API\CourseController::class, 'search']);
 });
 
-
+   Route::get('/schools/search/{school}', [App\Http\Controllers\API\SchoolController::class, 'search']);
 
 Route::apiResource('schools', App\Http\Controllers\API\SchoolController::class);

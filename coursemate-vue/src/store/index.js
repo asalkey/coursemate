@@ -19,7 +19,7 @@ export default new Vuex.Store({
     setAuthenticated(state, payload) {
       state.authenticated = payload;
     },
-    setCourses(state, payload) {
+    allCourses(state, payload) {
       state.courses = payload;
     },
     setStudyGroups(state, payload) {
@@ -31,7 +31,7 @@ export default new Vuex.Store({
     setUser(state, payload){
       state.user = payload;
     },
-    allCourses(state, payload) {
+    userCourses(state, payload) {
       state.allCourses = payload;
     },
   },
@@ -65,11 +65,11 @@ export default new Vuex.Store({
             commit("setAuthenticated",false);
         }
     },
-    setCourses(state){
-        app.instance.get('/api/courses').then(response=>{
-            state.commit("setCourses", response.data);
+    allCourses({commit},payload){
+        app.instance.get('/api/courses' + payload).then(response=>{
+            commit("setCourses", response.data);
         }).catch(() => {
-            state.commit("setCourses", false);
+            commit("setCourses", false);
         });
     },
     setStudyGroups({commit},payload){
@@ -79,16 +79,26 @@ export default new Vuex.Store({
             commit("setStudyGroups", false);
         });
     },
-    setSchools(state){
-        app.instance.get('/api/schools').then(response=>{
-            state.commit("setSchools", response.data);
-        }).catch(() => {
-            state.commit("setSchools", 'no');
-        });
+    async findStudyGroup({commit},payload){
+        try{
+            let response = app.instance.get(`/api/studygroups/${payload.id}/${payload.params}`);
+            commit("setStudyGroups", response.data);
+        }catch{
+            commit("setStudyGroups", false);
+        }
     },
-    async allCourses({state,commit},payload){
+    async schoolSearch({state,commit},payload){
+        try{
+            let response = await app.instance.get('/api/schools/search/' + payload);
+            console.log(response);
+            commit("setSchools", response.data);
+        }catch{
+            commit("setSchools",false);
+        }
+    },
+    async userCourses({state,commit},payload){
        let response = await app.instance.get('/api/courses/search/' +  state.user.school_id);
-       commit("allCourses", response.data);
+       commit("userCourses", response.data);
     },
 
   },
