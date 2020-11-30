@@ -3,27 +3,48 @@
         <Header></Header>
         <main class="container">
            <div class="row">
-                <router-link :to="{ name: 'addstudygroup', params: { id: this.$route.params.id }}">Add study group</router-link>
                 <div class="col-8">
+                    <router-link :to="{ name: 'addstudygroup', params: { id: this.$route.params.id }}">Add study group</router-link>
                     <ul v-for="studygroup in studygroups" v-bind:key="studygroup.id">
                       <li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
-                            <p>{{studygroup.description}}</p>
+                        <div class="col-6">
+                            <h2>{{studygroup.description}}</h2>
                             <span v-if="check == 'leave' || check == 'cancel'">
-                                <p><span>Notes: </span>{{studygroup.notes}}</p>
+                                <p>{{studygroup.notes}}</p>
                                 <template v-if="studygroup.remote">
-                                    <a href="studygroup.link">{{studygroup.link}}</a>
+                                   <b-icon-link45deg></b-icon-link45deg><a href="studygroup.link">{{studygroup.link}}</a>
                                 </template>
                                 <template v-else>
                                     <p><span>Address: </span> {{studygroup.address}} {{studygroup.state}},{{studygroup.city}} </p>
                                 </template>
-                                <p><span>Time: </span> {{studygroup.date}}</p>
-                                <p><span>Date: </span> {{studygroup.time}} </p>
+                                <p><b-icon-clock></b-icon-clock> {{studygroup.date}}</p>
+                                <p><b-icon-calendar></b-icon-calendar>{{studygroup.time}} </p>
                             </span>
                         </div>
-                        <button class="btn btn-success" @click="toggleSubmit(studygroup.id,toggleType)">{{toggle(studygroup.id)}}</button>
+                        <div class="col-2">
+                            <button class="btn btn-success" @click="toggleSubmit(studygroup.id,toggleType)">{{toggle(studygroup.id)}}</button>
+                        </div>
                       </li>
                     </ul>
+                </div>
+                <div class="mb-3 col-4">
+                    <h4> Filter </h4>
+                    <form method="get" @submit.prevent="filterSubmit">
+                        <!--<div class="form-group">
+                            <b-button-group size="sm">
+                                  <b-button v-for="(btn, idx) in buttons" :key="idx" :pressed.sync="btn.state" variant="primary">
+                                    {{ btn.caption }}
+                                  </b-button>
+                            </b-button-group>
+                        </div> -->
+                        <div class="form-group">
+                            <b-form-datepicker v-model="filter.date" id="datepicker-placeholder" placeholder="Choose a date" local="en"></b-form-datepicker>
+                        </div>
+                        <div class="form-group">
+                            <b-form-timepicker v-model="filter.time" id="timepicker-placeholder" placeholder="Choose a time" local="en"></b-form-timepicker>
+                        </div>
+                        <button type="submit" class="btn btn-outline-info"> Filter </button>
+                    </form>
                 </div>
             </div>
         </main>
@@ -50,8 +71,12 @@ export default {
               { caption: 'Remote', state: true },
               { caption: 'Near me', state: true },
             ],
-            date:null,
             check:null,
+            filter:{
+                date:null,
+                time:null,
+                course_id:this.$route.params.id,
+            },
             addData: {
                 date: '',
                 description:'',
@@ -107,6 +132,10 @@ export default {
                         //validation
                 });
 
+        },
+        filterSubmit: function(){
+            console.log(this.filter);
+            this.$store.dispatch('filterStudyGroup',this.filter);
         }
 
     }

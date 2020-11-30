@@ -8,11 +8,10 @@ import * as app from './../api.js';
 export default new Vuex.Store({
   state: {
     authenticated: null,
-    courses:null,
+    userCourses:null,
     studygroups:null,
     schools:null,
     user:null,
-    apple:'hey',
     allCourses:null
   },
   mutations: {
@@ -20,7 +19,7 @@ export default new Vuex.Store({
       state.authenticated = payload;
     },
     allCourses(state, payload) {
-      state.courses = payload;
+      state.allCourses = payload;
     },
     setStudyGroups(state, payload) {
       state.studygroups = payload;
@@ -32,18 +31,24 @@ export default new Vuex.Store({
       state.user = payload;
     },
     userCourses(state, payload) {
-      state.allCourses = payload;
+      state.userCourses = payload;
     },
   },
   actions: {
     async login({dispatch},payload){
-        await app.instance.get('/sanctum/csrf-cookie');
-        await app.instance.post('/login',payload);
+        try{
+            await app.instance.get('/sanctum/csrf-cookie');
+            await app.instance.post('/login',payload);
+            return dispatch('setUser');
+        }catch(error){
+            console.log(error);
+        }
     },
     async logout({dispatch},payload){
         try{
             await app.instance.get('/sanctum/csrf-cookie');
-            await app.instance.post('/login',payload);
+            await app.instance.post('logout',payload);
+            return dispatch('setUser');
         }catch(error){
             console.log(error);
         }
@@ -51,7 +56,8 @@ export default new Vuex.Store({
     async register({dispatch},payload){
         try{
             await app.instance.get('/sanctum/csrf-cookie');
-            await app.instance.post('/login',payload);
+            await app.instance.post('/register',payload);
+            return dispatch('setUser');
         }catch(error){
             console.log(error);
         }
@@ -65,12 +71,13 @@ export default new Vuex.Store({
             commit("setAuthenticated",false);
         }
     },
-    allCourses({commit},payload){
-        app.instance.get('/api/courses' + payload).then(response=>{
-            commit("setCourses", response.data);
-        }).catch(() => {
-            commit("setCourses", false);
-        });
+    async allCourses({commit}){
+        try{
+            let response = app.instance.get('/api/courses');
+            commit("allCourses", response.data);
+        }catch{
+            commit("allCourses", false);
+        }
     },
     setStudyGroups({commit},payload){
         app.instance.get('/api/studygroups/'  + payload.id).then(response=>{
@@ -79,9 +86,10 @@ export default new Vuex.Store({
             commit("setStudyGroups", false);
         });
     },
-    async findStudyGroup({commit},payload){
+    async filterStudyGroup({commit},payload){
         try{
-            let response = app.instance.get(`/api/studygroups/${payload.id}/${payload.params}`);
+            let response = await app.instance.get('/api/s', {params:payload});
+            console.log(payload);
             commit("setStudyGroups", response.data);
         }catch{
             commit("setStudyGroups", false);
@@ -97,8 +105,12 @@ export default new Vuex.Store({
         }
     },
     async userCourses({state,commit},payload){
-       let response = await app.instance.get('/api/courses/search/' +  state.user.school_id);
-       commit("userCourses", response.data);
+        try{
+            let response = await app.instance.get('/api/courses/search/' +  state.user.school_id);
+            commit("userCourses", response.data);
+        }catch(error){
+            console.log(error);
+        }
     },
 
   },

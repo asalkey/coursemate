@@ -94,4 +94,14 @@ class StudyGroupController extends Controller
 
         return $studyGroup;
     }
+
+
+    public function search(Request $request){
+         return StudyGroup::with('users')
+            ->where('course_id', '=', $request->course_id)
+            ->where(function ($query) use($request) {
+               $query->where('date', '=', $request->date)
+                     ->orWhere('time', '=', $request->time);
+            })->get();
+    }
 }

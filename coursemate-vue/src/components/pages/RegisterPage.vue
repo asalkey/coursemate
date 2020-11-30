@@ -17,7 +17,7 @@
             <div class="col-md-6 p-0 bg-white h-md-100 loginarea">
                 <div class="d-md-flex align-items-center h-md-100 p-5 justify-content-center">
                      <ValidationObserver ref="form" v-slot="{ handleSubmit }">
-                        <form @submit.prevent="handleSubmit(onSubmit)">
+                        <form @submit.prevent="handleSubmit(register)">
                             <div class="form-group">
                               <label for="name">Name</label>
                                <ValidationProvider name="name" rules="required" v-slot="validationContext">

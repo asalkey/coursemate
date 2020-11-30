@@ -2,16 +2,15 @@
     <div class="dashboard">
         <Header></Header>
         <main>
-        {{user}}
             <div class="container">
                 <div class="d-flex flex-row">
                     <div class="mb-3 col-12">
-                          <b-list-group v-for="course in courses" v-bind:key="course.id" >
+                          <b-list-group v-for="userCourse in userCourses" v-bind:key="userCourse.id" >
                               <li class="d-flex list-group-item justify-content-between lh-condensed">
-                                   <router-link tag="div" :to="{ name: 'showstudygroups', params: { id: course.id }}">
-                                     <h6 class="my-0">{{course.number}}</h6>
+                                   <router-link tag="div" :to="{ name: 'showstudygroups', params: { id: userCourse.id }}">
+                                     <h6 class="my-0">{{userCourse.number}}</h6>
                                   </router-link>
-                                  <b-icon-trash @click='deleteCourse(course.id)'></b-icon-trash>
+                                  <b-icon-trash @click='deleteCourse(userCourse.id)'></b-icon-trash>
                              </li>
                         </b-list-group>
 
@@ -63,19 +62,16 @@ export default {
     },
     props: ['user'],
     computed: {
-        courses(){
-            return this.$store.state.courses;
+        userCourses(){
+            return this.$store.state.userCourses;
         },
         schoolCourses(){
             return this.$store.state.allCourses;
         }
     },
     created() {
-        this.$store.dispatch('setCourses');
-
+        this.$store.dispatch('userCourses');
         this.$store.dispatch('allCourses');
-
-
     },
     methods:{
         getValidationState({ dirty, validated, valid = null }) {
@@ -83,7 +79,7 @@ export default {
         },
         onSubmit: function(){
             axios.post('/api/courses',this.courseData).then(response=>{
-                this.$store.dispatch('setCourses');
+                this.$store.dispatch('userCourses');
             }).catch(error => {
                 this.$refs.form.setErrors(error.response.data.errors);
                 return;
@@ -92,8 +88,9 @@ export default {
         },
         deleteCourse: function(id){
             axios.delete(`/api/courses/${id}`).then(response=>{
-                this.$store.dispatch('setCourses');
+                this.$store.dispatch('userCourses');
             }).catch(error => {
+                console.log(error);
             });
         }
     }
