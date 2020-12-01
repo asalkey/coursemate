@@ -73,5 +73,6 @@ store.dispatch('setUser').then(()=>{
       render: h => h(App),
       router: router,
       store: store,
+      mode: 'history'
     }).$mount('#app')
 });

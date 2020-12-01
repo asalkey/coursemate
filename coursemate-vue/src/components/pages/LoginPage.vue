@@ -27,7 +27,7 @@
                             </ValidationProvider>
                         </div>
                         <button type="submit" class="btn btn-success btn-round btn-block shadow-sm" :disabled="invalid">Sign in</button>
-                        <small class="d-block mt-4 text-center"><router-link :to='{name: "reset"}' class='nav-link'> Forgot your password? </router-link></small>
+                       <!-- <small class="d-block mt-4 text-center"><router-link :to='{name: "reset"}' class='nav-link'> Forgot your password? </router-link></small> -->
                     </form>
                 </ValidationObserver>
             </div>
