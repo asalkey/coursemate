@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\StudyGroup;
+use App\Notifications\CancelledNotice;
+use App\Notifications\JoinedNotice;
 
 class StudyGroupController extends Controller
 {
@@ -67,12 +69,15 @@ class StudyGroupController extends Controller
         switch ($request->data) {
             case 'cancel':
                 $studyGroup->delete($request->all());
+                $user->notify(new CancelledNotice($request->user()->name));
                 break;
-            case 'unattend':
+            case 'leave':
                 $request->user()->studygroups()->detach($id);
+
                 break;
             case 'join':
                 $request->user()->studygroups()->save($studyGroup, ['creator' => false]);
+                $user->notify(new JoinedNotice($request->user()->name));
                 break;
         }
 

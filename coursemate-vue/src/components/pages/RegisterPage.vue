@@ -7,7 +7,7 @@
                 <div class="d-md-flex align-items-center h-100 p-5 text-center justify-content-center">
                     <div class="logoarea pt-5 pb-5">
                           <a class="navbar-brand" href="/" aria-label="Bootstrap"> <img src="https://image.flaticon.com/icons/svg/2232/2232688.svg" style="width:5%">Coursemate </a>
-                          <img class="img-fluid" src="@/assets/images/2785837.png"/>
+                          <img class="img-fluid d-none d-sm-none d-md-block d-lg-block" src="@/assets/images/2785837.png"/>
                     </div>
                 </div>
             </div>
@@ -52,12 +52,14 @@
 
 
                             <div class="mb-3">
-                              <label for="school">School</label>
+                              <label for="school">School: {{school_name}}</label>
                               <ValidationProvider name="School" rules="required" v-slot="{ errors }">
-                                  <b-form-input list="schools-list" @keyup="schoolSearch" v-model="schoolInput" :data-id="0" class="schools" placeholder="enter your school's name..."></b-form-input>
-                                  <datalist id="schools-list">
-                                    <option v-for="school in schools" v-bind:key="school.id" :data-id="school.id" :value="school.name">{{ school.name }}</option>
-                                  </datalist>
+                                  <b-form-input @keyup="schoolSearch" v-model="schoolInput" class="schools" placeholder="search for your school..."></b-form-input>
+                                  <div class="select">
+                                      <span v-for="school in schools" v-bind:key="school.id" >
+                                        <div class="option" @click="schoolChoice(school.id,school.name)">{{ school.name }}</div>
+                                      </span>
+                                  </div>
                                   <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
                               </ValidationProvider>
                             </div>
@@ -88,6 +90,7 @@ export default {
 
             },
             schoolDisplay:'',
+            school_name:null,
             formData: {
                 email: '',
                 password: '',
@@ -128,8 +131,26 @@ export default {
         },
         schoolSearch: function(term){
             this.$store.dispatch('schoolSearch', this.schoolInput);
-            console.log(this.schools);
+        },
+        schoolChoice: function(id,name){
+            this.formData.school_id = id;
+            this.school_name = name;
         }
     }
 }
 </script>
+
+<style>
+ .select{
+    height:80px;
+    overflow-x: scroll;
+ }
+
+ .option{
+    cursor:pointer;
+  }
+
+  .option:hover{
+    background:yellow;
+   }
+</style>

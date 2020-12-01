@@ -4,7 +4,7 @@
             <div class="text-white d-md-flex align-items-center h-100 p-5 text-center justify-content-center">
                 <div class="logoarea pt-5 pb-5">
                     <a class="navbar-brand" href="/" aria-label="Bootstrap"> <img src="https://image.flaticon.com/icons/svg/2232/2232688.svg" style="width:5%">Coursemate </a>
-                    <img class="img-fluid" src="@/assets/images/2785837.png"/>
+                    <img class="img-fluid d-none d-sm-none d-md-block d-lg-block" src="@/assets/images/2785837.png"/>
                 </div>
             </div>
         </div>
@@ -16,7 +16,7 @@
                         <h3 class="mb-4 text-center">Sign In</h3>
                         <div class="form-group">
                             <ValidationProvider name="E-mail" rules="required|email" v-slot="{ errors }">
-                                <input type="email" class="form-control" v-model="formData.email" placeholder="Jane Doe" required="required">
+                                <input type="email" class="form-control" v-model="formData.email" placeholder="example@example.com" required="required">
                                 <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
                             </ValidationProvider>
                         </div>
@@ -71,10 +71,10 @@ export default {
                 this.$store.dispatch('setUser').then((res) => {
                     this.$router.push({name:'showcourses'});
                 }).catch((error) => {
-                    alert(error)
+                    console.log(error);
                 });
             }).catch((error) => {
-              alert(error)
+              console.log(error);
             });
         }
     }

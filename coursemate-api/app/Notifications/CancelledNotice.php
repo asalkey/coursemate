@@ -10,15 +10,16 @@ use Illuminate\Notifications\Notification;
 class CancelledNotice extends Notification
 {
     use Queueable;
+    public $name;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(String $name)
     {
-        //
+        $this->name = $name;
     }
 
     /**
@@ -40,7 +41,7 @@ class CancelledNotice extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->markdown('mail.canceled');
+        return (new MailMessage)->markdown('mail.canceled',['name'=>$this->name]);
     }
 
     /**

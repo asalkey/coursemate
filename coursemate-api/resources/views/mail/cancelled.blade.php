@@ -1,17 +1,9 @@
 @component('mail::message')
-# Study group cancelled
 
-Hello {{name}},
+Hello {{$name}},
 
-The following study group has been canceled:
+Your study group has been cancelled.
 
-@component('mail::button', ['url' => ''])
-Create a new study group
-@endcomponent
-
-@component('mail::button', ['url' => ''])
-Join a new study group
-@endcomponent
-
+You can add a new study group by going to your dashboard.
 
 @endcomponent

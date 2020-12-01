@@ -3,11 +3,7 @@
 
 Hello {{$name}},
 
-Get started by adding courses to your list
-
-@component('mail::button', ['url' => ''])
-Add a course
-@endcomponent
+Get started by going to your dashboard and adding courses to your course list.
 
 You can then add and/or join study groups by clicking on the courses in your course list.
 

@@ -44,10 +44,29 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    console.log("router");
+  let isLoggedIn = store.state.authenticated;
 
-  next()
+  if (to.matched.some(record => record.meta.user)) {
+    if (!isLoggedIn) {
+      next({
+        name: 'home',
+      })
+    } else {
+      next()
+    }
+  } else if (to.matched.some(record => record.meta.guest)) {
+    if (isLoggedIn) {
+      next({
+        name: 'showcourses',
+      })
+    } else {
+      next()
+    }
+  } else {
+    next() // make sure to always call next()!
+  }
 })
+
 
 store.dispatch('setUser').then(()=>{
     new Vue({

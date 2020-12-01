@@ -46,7 +46,7 @@ export default new Vuex.Store({
     },
     async logout({dispatch},payload){
         try{
-            await app.instance.get('/sanctum/csrf-cookie');
+            //await app.instance.get('/sanctum/csrf-cookie');
             await app.instance.post('logout',payload);
             return dispatch('setUser');
         }catch(error){
@@ -68,12 +68,13 @@ export default new Vuex.Store({
             commit("setAuthenticated", true);
             commit("setUser", response.data);
         }catch{
+            commit("setUser", false);
             commit("setAuthenticated",false);
         }
     },
-    async allCourses({commit}){
+    async allCourses({state,commit},payload){
         try{
-            let response = app.instance.get('/api/courses');
+            let response = await app.instance.get('/api/courses/search/' +  state.user.school_id);
             commit("allCourses", response.data);
         }catch{
             commit("allCourses", false);
@@ -106,7 +107,7 @@ export default new Vuex.Store({
     },
     async userCourses({state,commit},payload){
         try{
-            let response = await app.instance.get('/api/courses/search/' +  state.user.school_id);
+            let response = await app.instance.get('/api/courses');
             commit("userCourses", response.data);
         }catch(error){
             console.log(error);

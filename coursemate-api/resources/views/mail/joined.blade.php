@@ -1,12 +1,10 @@
 @component('mail::message')
-# Introduction
 
-The body of your message.
+Hello {{$name}},
 
-@component('mail::button', ['url' => ''])
-Button Text
+You just joined a study group.
+
+To keep track of the study groups that you joined go to your dashboard and select a course.
+
 @endcomponent
 
-Thanks,<br>
-{{ config('app.name') }}
-@endcomponent

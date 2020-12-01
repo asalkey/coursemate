@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\School;
+use Illuminate\Validation\Rule;
 
 class CourseController extends Controller
 {
@@ -28,12 +29,23 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-           'number' => 'required',
+           'number' => "required"
         ]);
 
-        $request['school_id'] = $request->user()->school_id;
 
-        $course = Course::firstOrCreate($request->all());
+        $userCourses = $request->user()->courses;
+
+        foreach( $userCourses as $userCourse){
+            if($userCourse->number == $request->number){
+                return 'course exists';
+                exit;
+            }
+        }
+
+        $course = Course::firstOrNew(
+                    ['number' => $request->number],
+                    ['school_id' => $request->user()->school_id
+                  ]);
 
         $request->user()->courses()->save($course);
     }

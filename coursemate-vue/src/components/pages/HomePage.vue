@@ -1,18 +1,18 @@
 <template>
     <div>
         <navigation></navigation>
-        <div class="container-fluid">
-            <div class="row bg">
+        <div class="d-flex flex-row bg">
+
                 <div class="col-6 tagline">
                     <h1> Study with <span>classmates</span></h1>
                     <p>Join in-person and online study groups for your classes.</p>
-                    <router-link :to='{name: "join"}' class="btn btn-style-1 btn-green"> join a study group </router-link>
-                    <router-link :to='{name: "create"}' class="btn btn-style-1 btn-purple"> create a study group </router-link>
+                    <router-link :to='{name: "register"}' class="btn btn-style-1 btn-green"> join a study group </router-link>
+                    <router-link :to='{name: "register"}' class="btn btn-style-1 btn-purple"> create a study group </router-link>
                 </div>
                 <div class="col-6">
-                    <img class="img-fluid" src="@/assets/images/Slice.png" alt="" title=""/>
+                    <img class="img-fluid d-none d-sm-none d-md-block d-lg-block" src="@/assets/images/Slice.png" alt="" title=""/>
                 </div>
-            </div>
+
         </div>
     </div>
 </template>
