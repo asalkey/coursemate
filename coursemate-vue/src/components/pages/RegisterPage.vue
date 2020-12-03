@@ -1,9 +1,7 @@
 <template>
     <div>
-        <div class="d-md-flex h-md-100 align-items-center">
-            <!-- First Half -->
-
-            <div class="col-md-6 p-0 bg-indigo h-md-100">
+        <div class="d-md-flex flex-row">
+            <div class="col-md-6 first-block">
                 <div class="d-md-flex align-items-center h-100 p-5 text-center justify-content-center">
                     <div class="logoarea pt-5 pb-5">
                           <a class="navbar-brand" href="/" aria-label="Bootstrap"> <img src="https://image.flaticon.com/icons/svg/2232/2232688.svg" style="width:5%">Coursemate </a>
@@ -14,9 +12,12 @@
 
             <!-- Second Half -->
 
-            <div class="col-md-6 p-0 bg-white h-md-100 loginarea">
-                <div class="d-md-flex align-items-center h-md-100 p-5 justify-content-center">
-                     <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+            <div class="col-md-6 pt-5 second-block">
+                <div class="d-md-flex h-md-100 justify-content-center">
+
+                     <ValidationObserver ref="form" v-slot="{ handleSubmit }" class="form-wrap">
+                        <h2 class="text-center">Register</h2>
+                        <hr>
                         <form @submit.prevent="handleSubmit(register)">
                             <div class="form-group">
                               <label for="name">Name</label>
@@ -28,7 +29,7 @@
 
                             <div class="form-group">
                               <label for="email">Email</label>
-                               <ValidationProvider name="email" rules="required" v-slot="validationContext">
+                               <ValidationProvider name="email" rules="required|email" v-slot="validationContext">
                                     <b-form-input type="email" v-model="formData.email" placeholder="you@example.com" :state="getValidationState(validationContext)"></b-form-input>
                                     <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
                                 </ValidationProvider>
@@ -52,18 +53,23 @@
 
 
                             <div class="mb-3">
-                              <label for="school">School: {{school_name}}</label>
-                              <ValidationProvider name="School" rules="required" v-slot="{ errors }">
-                                  <b-form-input @keyup="schoolSearch" v-model="schoolInput" class="schools" placeholder="search for your school..."></b-form-input>
-                                  <div class="select">
-                                      <span v-for="school in schools" v-bind:key="school.id" >
-                                        <div class="option" @click="schoolChoice(school.id,school.name)">{{ school.name }}</div>
-                                      </span>
-                                  </div>
-                                  <div class="alert alert-danger" v-if="errors[0]">{{ errors[0] }}</div>
-                              </ValidationProvider>
+                              <div class="school-search ">
+                                    <ValidationProvider name="school_id" rules="required" v-slot="validationContext">
+                                        <span class="btn-secondary dropdown p-2" @click="schoolDropDown.menu = !schoolDropDown.menu">{{schoolDropDown.value}}</span>
+                                        <div class="wrap" v-show="schoolDropDown.menu">
+                                            <input @keyup="schoolSearch($event.target.value)" class="schools" placeholder="search for your school..." :state="getValidationState(validationContext)" />
+                                            <b-list-group class="menu">
+                                              <span v-for="school in schools" v-bind:key="school.id" >
+                                                <b-list-group-item button @click=schoolChoice(school.id,school.name)>{{ school.name }}</b-list-group-item>
+                                              </span>
+                                            </b-list-group>
+                                        </div>
+                                        <input type="number" v-model="formData.school_id" style="display:none" readonly />
+                                        <div class="invalid-feedback" v-bind:style="validationContext.errors[0] ? 'display:block;' : 'display:none;'">{{ validationContext.errors[0] }}</div>
+                                    </ValidationProvider>
+                              </div>
                             </div>
-                            <button class="btn btn-primary btn-lg btn-block" type="submit" >Register</button>
+                            <button class="mb-3 btn btn-primary btn-lg btn-block" type="submit" >Register</button>
                       </form>
                     </ValidationObserver>
                 </div>
@@ -88,6 +94,10 @@ export default {
 
               return (getOptionID) ? getOptionID : null;
 
+            },
+            schoolDropDown:{
+                menu: false,
+                value: "Select your school...",
             },
             schoolDisplay:'',
             school_name:null,
@@ -119,32 +129,61 @@ export default {
             return dirty || validated ? valid : null;
         },
         register: function(){
+
             this.$store.dispatch('register',this.formData).then((res) => {
                 this.$store.dispatch('setUser').then((res) => {
                     this.$router.push({name:'showcourses'});
                 }).catch((error) => {
-                    alert(error)
+                    console.log(error);
                 });
             }).catch((error) => {
-              alert(error)
+              this.$refs.form.setErrors(error.response.data.errors);
+              return;
             });
         },
         schoolSearch: function(term){
-            this.$store.dispatch('schoolSearch', this.schoolInput);
+            this.$store.dispatch('schoolSearch', term);
         },
         schoolChoice: function(id,name){
             this.formData.school_id = id;
-            this.school_name = name;
+            this.schoolDropDown.value = name;
+            this.schoolDropDown.menu = false;
         }
     }
 }
 </script>
 
 <style>
- .select{
-    height:80px;
-    overflow-x: scroll;
+  .second-block{
+    background: #f8f9fa;
+    border-left: thin solid #eaebec;
+  }
+ .school-search .menu{
+    height: 80px;
+    overflow-y: scroll;
  }
+
+ .school-search .dropdown{
+    width: 100%;
+    display: block;
+    overflow:hidden;
+    cursor:pointer;
+  }
+
+  .school-search .schools{
+    width:100%;
+   }
+
+  .school-search .wrap{
+
+    border: thin solid lightgray;
+    padding: 2%;
+
+   }
+
+   .form-wrap{
+    width:35vw;
+   }
 
  .option{
     cursor:pointer;

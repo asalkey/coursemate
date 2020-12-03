@@ -24,7 +24,7 @@
                     <ValidationObserver ref="form" v-slot="{ handleSubmit }">
                       <form class="card p-2" @submit.prevent="handleSubmit(onSubmit)">
                         <b-input-group>
-                             <ValidationProvider name="courseID" rules="required" v-slot="validationContext" class="col-11">
+                             <ValidationProvider name="number" rules="required" v-slot="validationContext" class="col-11">
                                   <b-form-input list="course-id" v-model="courseData.number" class="form-control" placeholder="Course ID" :state="getValidationState(validationContext)" autocomplete="off"></b-form-input>
                                   <datalist id="course-id">
                                     <option v-for="schoolCourse in schoolCourses" v-bind:key="schoolCourse.id">{{ schoolCourse.number }}</option>
@@ -88,6 +88,7 @@ export default {
             axios.post('/api/courses',this.courseData).then(response=>{
                 this.$store.dispatch('userCourses');
             }).catch(error => {
+                //console.log(this.$refs.form);
                 this.$refs.form.setErrors(error.response.data.errors);
                 return;
             });

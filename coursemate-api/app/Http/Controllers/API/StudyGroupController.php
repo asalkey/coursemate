@@ -69,7 +69,7 @@ class StudyGroupController extends Controller
         switch ($request->data) {
             case 'cancel':
                 $studyGroup->delete($request->all());
-                $user->notify(new CancelledNotice($request->user()->name));
+                //$request->user()->notify(new CancelledNotice($request->user()->name));
                 break;
             case 'leave':
                 $request->user()->studygroups()->detach($id);
@@ -77,7 +77,7 @@ class StudyGroupController extends Controller
                 break;
             case 'join':
                 $request->user()->studygroups()->save($studyGroup, ['creator' => false]);
-                $user->notify(new JoinedNotice($request->user()->name));
+                //$request->user()->notify(new JoinedNotice($request->user()->name));
                 break;
         }
 

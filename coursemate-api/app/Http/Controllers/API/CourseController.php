@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\School;
 use Illuminate\Validation\Rule;
+use Validator;
 
 class CourseController extends Controller
 {
@@ -28,18 +29,20 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-           'number' => "required"
+
+        $validator = Validator::make($request->all(), [
+           'number' =>[ "required",
+            function ($attribute, $value, $fail) use ($request){
+                $courseExist = $request->user()->courses()->where('number' ,$value)->exists();
+
+                if ($courseExist) {
+                    $fail("{$value} is already in your list");
+                }
+            },]
         ]);
 
-
-        $userCourses = $request->user()->courses;
-
-        foreach( $userCourses as $userCourse){
-            if($userCourse->number == $request->number){
-                return 'course exists';
-                exit;
-            }
+        if ($validator->fails()) {
+            return response()->json(['errors'=>$validator->messages()],422);
         }
 
         $course = Course::firstOrNew(

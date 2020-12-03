@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    $request->user()['gravatar'] = "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $request->user()->email ) ) );
     return $request->user();
 });
 

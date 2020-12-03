@@ -36,31 +36,21 @@ export default new Vuex.Store({
   },
   actions: {
     async login({dispatch},payload){
-        try{
-            await app.instance.get('/sanctum/csrf-cookie');
-            await app.instance.post('/login',payload);
-            return dispatch('setUser');
-        }catch(error){
-            console.log(error);
-        }
+        await app.instance.get('/sanctum/csrf-cookie');
+        await app.instance.post('/login',payload);
+        return dispatch('setUser');
+
     },
     async logout({dispatch},payload){
-        try{
-            //await app.instance.get('/sanctum/csrf-cookie');
-            await app.instance.post('logout',payload);
-            return dispatch('setUser');
-        }catch(error){
-            console.log(error);
-        }
+        await app.instance.get('/sanctum/csrf-cookie');
+        await app.instance.post('logout',payload);
+        return dispatch('setUser');
+
     },
     async register({dispatch},payload){
-        try{
-            await app.instance.get('/sanctum/csrf-cookie');
-            await app.instance.post('/register',payload);
-            return dispatch('setUser');
-        }catch(error){
-            console.log(error);
-        }
+        await app.instance.get('/sanctum/csrf-cookie');
+        await app.instance.post('/register',payload);
+        return dispatch('setUser');
     },
     async setUser({commit}) {
         try{
@@ -99,19 +89,15 @@ export default new Vuex.Store({
     async schoolSearch({state,commit},payload){
         try{
             let response = await app.instance.get('/api/schools/search/' + payload);
-            console.log(response);
             commit("setSchools", response.data);
         }catch{
             commit("setSchools",false);
         }
     },
     async userCourses({state,commit},payload){
-        try{
-            let response = await app.instance.get('/api/courses');
-            commit("userCourses", response.data);
-        }catch(error){
-            console.log(error);
-        }
+        let response = await app.instance.get('/api/courses');
+        commit("userCourses", response.data);
+
     },
 
   },
