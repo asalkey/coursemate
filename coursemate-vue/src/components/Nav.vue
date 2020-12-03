@@ -1,5 +1,6 @@
 <template>
 <div>
+    {{user}}
   <b-navbar toggleable="lg">
     <b-navbar-brand href="#"> <img src="https://image.flaticon.com/icons/svg/2232/2232688.svg" style="width:3%">Coursemate</b-navbar-brand>
 
@@ -36,6 +37,7 @@ export default {
     computed:{
         ...mapGetters(["getAuthenticated"])
     },
+    props: ['user'],
     methods:{
         logout: function(){
             this.$store.dispatch('logout').then((res) => {

@@ -1,6 +1,6 @@
 <template>
 
- <router-view :user="user"></router-view>
+ <router-view v-bind:user="user"></router-view>
 
 </template>
 
@@ -15,11 +15,11 @@ export default {
   },
   computed: {
     user(){
+        console.log(this.$store.state.user);
         return this.$store.state.user;
     }
   },
   created() {
-    console.log('test');
   }
 }
 </script>

@@ -5,31 +5,35 @@
             <div class="container">
                 <div class="d-flex flex-md-row flex-sm-column">
                     <div class="col-md-8 col-sm-12">
-                        <h2>Studygroups</h2>
-                        <router-link :to="{ name: 'showcourses'}">Back to course list</router-link>
-                         |
-                        <router-link :to="{ name: 'addstudygroup', params: { id: this.$route.params.id }}">Add study group</router-link>
-                        <hr>
-                        <ul v-for="studygroup in studygroups" v-bind:key="studygroup.id">
-                          <li class="list-group-item d-flex justify-content-between lh-condensed">
-                            <div class="col-md-6 col-sm-10">
-                                <h2>{{studygroup.description}}</h2>
-                                <span v-if="check == 'leave' || check == 'cancel'">
-                                    <p>{{studygroup.notes}}</p>
-                                    <template v-if="studygroup.remote">
-                                       <a href="studygroup.link">{{studygroup.link}}</a>
-                                    </template>
-                                    <template v-else>
-                                        <p><span>Address: </span> {{studygroup.address}} {{studygroup.state}},{{studygroup.city}} </p>
-                                    </template>
-                                    <p><b-icon-calendar></b-icon-calendar> {{studygroup.date}} | <b-icon-clock></b-icon-clock> {{studygroup.time}} </p>
-                                </span>
-                            </div>
-                            <div class="col-md-2 col-sm-2">
-                                <button class="btn btn-success" @click="toggleSubmit(studygroup.id,toggleType)">{{toggle(studygroup.id)}}</button>
-                            </div>
-                          </li>
-                        </ul>
+                        <span v-for="studygroup in studygroups" v-bind:key="studygroup.id">
+
+                            <b-list-group>
+                              <b-list-group-item href="#" class="flex-column align-items-start">
+                                <div class="d-flex w-100 justify-content-between">
+                                  <h5 class="mb-1">{{studygroup.description}}</h5>
+                                  <button class="btn btn-outline-info" @click="toggleSubmit(studygroup.id,toggleType)">{{toggle(studygroup.id)}}</button>
+                                </div>
+                                <p class="mb-1">
+                                  {{studygroup.notes}}
+                                </p>
+                               <template v-if="studygroup.remote" class="mb-1">
+                                   <b-icon icon="link-45deg" class="rounded-circle bg-secondary p-1" style="font-size: 5rem;color:#fff;"></b-icon><a href="studygroup.link">{{studygroup.link}}</a>
+                                </template>
+                                <template v-else>
+                                    <p><span>Address: </span> {{studygroup.address}} {{studygroup.state}},{{studygroup.city}} </p>
+                                </template>
+                                <div class="d-flex w-100 justify-content-between mt-3">
+                                    <span>
+                                        <b-badge variant="info">4</b-badge><small> attending</small>
+                                    </span>
+                                    <span>
+                                        <span class="pr-2"><b-icon-calendar></b-icon-calendar><small> {{studygroup.date}} </small></span>
+                                        <span><b-icon-clock></b-icon-clock><small> {{studygroup.time}} </small></span>
+                                    </span>
+                                </div>
+                              </b-list-group-item>
+                            </b-list-group>
+                        </span>
                     </div>
                     <div class="col-md-4 col-sm-12 d-none d-sm-none d-md-block d-lg-block">
                         <h4> Filter </h4>

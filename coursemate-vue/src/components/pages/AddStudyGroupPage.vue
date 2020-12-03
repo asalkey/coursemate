@@ -1,6 +1,6 @@
 <template>
       <div class="dashboard">
-        <Header></Header>
+        <Header :user="user"></Header>
         <main>
             <div class="container d-flex justify-content-center">
                 <div class="col-6">
@@ -89,6 +89,7 @@ axios.defaults.baseURL = 'http://localhost:8000';
 
 export default {
     name: 'AddStudyGroupPage',
+     props: ['user'],
     components:{Header,BFormTextarea,BFormTimepicker,BFormDatepicker,ValidationProvider,ValidationObserver},
     data:function(){
         return {
