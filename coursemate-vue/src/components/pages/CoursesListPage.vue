@@ -55,9 +55,7 @@ import Header from './../DashboardHeader.vue';
 import { ValidationProvider,ValidationObserver} from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
 
-import axios from 'axios';
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:8000';
+import * as app from './../../api.js';
 
 export default {
     name: 'CoursesListPage',
@@ -87,17 +85,16 @@ export default {
             return dirty || validated ? valid : null;
         },
         onSubmit: function(){
-            axios.post('/api/courses',this.courseData).then(response=>{
+            app.instance.post('/api/courses',this.courseData).then(response=>{
                 this.$store.dispatch('userCourses');
             }).catch(error => {
-                //console.log(this.$refs.form);
                 this.$refs.form.setErrors(error.response.data.errors);
                 return;
             });
 
         },
         deleteCourse: function(id){
-            axios.delete(`/api/courses/${id}`).then(response=>{
+            app.instance.delete(`/api/courses/${id}`).then(response=>{
                 this.$store.dispatch('userCourses');
             }).catch(error => {
                 console.log(error);

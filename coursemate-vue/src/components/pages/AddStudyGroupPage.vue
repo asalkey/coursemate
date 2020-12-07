@@ -83,9 +83,7 @@ extend('required', {
   message: 'This field is required'
 });
 
-import axios from 'axios';
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:8000';
+import * as app from './../../api.js';
 
 export default {
     name: 'AddStudyGroupPage',
@@ -112,7 +110,7 @@ export default {
             return dirty || validated ? valid : null;
         },
         onSubmit: function(){
-            axios.post('/api/studygroups',this.addData).then(response=>{
+            app.instance.post('/api/studygroups',this.addData).then(response=>{
                 this.$router.push({name:'showstudygroups'});
             }).catch(error => {
                 this.$refs.form.setErrors(error.response.data.errors);

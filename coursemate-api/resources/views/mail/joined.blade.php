@@ -2,9 +2,27 @@
 
 Hello {{$name}},
 
-You just joined a study group.
+You joined a study group. Keep note of the information below:
 
-To keep track of the study groups that you joined go to your dashboard and select a course.
+**Description:** {{$data['description']}}
+
+**Time:** {{$data['time']}}
+
+@if($data['remote'])
+
+**Link:** {{$data['link']}}
+
+@else
+
+**Address:** {{$data['address']}}
+
+@endif
+
+@if($data['notes'])
+
+**Notes:** {{$data['notes']}}
+
+@endif
 
 @endcomponent
 

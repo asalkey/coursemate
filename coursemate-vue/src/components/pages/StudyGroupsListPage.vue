@@ -67,9 +67,7 @@
 import { BFormDatepicker,BFormTimepicker} from 'bootstrap-vue'
 import Header from './../DashboardHeader.vue';
 
-import axios from 'axios';
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:8000';
+import * as app from './../../api.js';
 
 export default {
     name: 'StudyGroupsListPage',
@@ -133,8 +131,7 @@ export default {
                 return this.toggleType;
         },
         toggleSubmit: function(id,type){
-
-                axios.put(`/api/studygroups/${id}`,{data:type}).then(response=>{
+                app.instance.put(`/api/studygroups/${id}`,{data:type}).then(response=>{
                     this.$store.dispatch('setStudyGroups',{id:this.$route.params.id});
                     this.toggle(id);
                 }).catch(error => {
@@ -143,7 +140,6 @@ export default {
 
         },
         filterSubmit: function(){
-            console.log(this.filter);
             this.$store.dispatch('filterStudyGroup',this.filter);
         }
 

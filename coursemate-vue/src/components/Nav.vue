@@ -1,8 +1,7 @@
 <template>
 <div>
-    {{user}}
   <b-navbar toggleable="lg">
-    <b-navbar-brand href="#"> <img src="https://image.flaticon.com/icons/svg/2232/2232688.svg" style="width:3%">Coursemate</b-navbar-brand>
+    <b-navbar-brand href="#">Coursemate</b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 

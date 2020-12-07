@@ -7,21 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class JoinedNotice extends Notification
+class LeftNotice extends Notification
 {
     use Queueable;
-    public $data;
-    public $name;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($name,$data)
+    public function __construct()
     {
-        $this->name = $name;
-        $this->data = $data;
+        //
     }
 
     /**
@@ -43,7 +40,10 @@ class JoinedNotice extends Notification
      */
     public function toMail($notifiable)
     {
-         return (new MailMessage)->markdown('mail.joined',['name'=>$this->name,'data'=>$this->data]);
+        return (new MailMessage)
+                    ->line('The introduction to the notification.')
+                    ->action('Notification Action', url('/'))
+                    ->line('Thank you for using our application!');
     }
 
     /**
