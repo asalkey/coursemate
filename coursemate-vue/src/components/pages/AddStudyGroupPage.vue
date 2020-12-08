@@ -1,7 +1,7 @@
 <template>
       <div class="dashboard">
         <Header :user="user"></Header>
-        <main>
+        <main class="h-md-100">
             <div class="container d-flex justify-content-center">
                 <div class="col-6">
                     <ValidationObserver ref="form" v-slot="{ handleSubmit }">

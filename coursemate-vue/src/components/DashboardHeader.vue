@@ -12,7 +12,7 @@
                 <span v-else-if="$route.name === 'addstudygroup'">
                     <h1>Create a study group </h1>
                 </span>
-                  <div>
+                  <div v-if="$route.name != 'showcourses'">
                     <b-button-group class="mt-3 mb-3">
                       <b-button variant="outline-primary" :to="{ name: 'showcourses'}">
                         <b-icon icon="list-nested"></b-icon> Course List
@@ -20,6 +20,11 @@
                       <b-button variant="outline-primary" :to="{ name: 'addstudygroup', params: { id: this.$route.params.id }}">
                         <b-icon icon="plus-circle"></b-icon> Create a study group
                       </b-button>
+                      <span v-if="$route.name != 'showstudygroups'">
+                          <b-button variant="outline-primary" :to="{ name: 'showstudygroups', params: { id: this.$route.params.id }}">
+                            <b-icon icon="list-nested"></b-icon> Study Groups
+                          </b-button>
+                      </span>
                     </b-button-group>
                   </div>
             </div>

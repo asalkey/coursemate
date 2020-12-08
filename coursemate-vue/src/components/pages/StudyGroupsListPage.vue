@@ -1,7 +1,7 @@
 <template>
     <div class="dashboard">
         <Header></Header>
-        <main>
+        <main class="h-md-100">
             <div class="container">
                 <div class="d-flex flex-md-row flex-sm-column">
                     <div class="col-md-8 col-sm-12">
@@ -24,7 +24,7 @@
                                 </template>
                                 <div class="d-flex w-100 justify-content-between mt-3">
                                     <span>
-                                        <b-badge variant="info">4</b-badge><small> attending</small>
+                                        <!--<b-badge variant="info">4</b-badge><small> attending</small> -->
                                     </span>
                                     <span>
                                         <span class="pr-2"><b-icon-calendar></b-icon-calendar><small> {{studygroup.date}} </small></span>

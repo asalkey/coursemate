@@ -1,7 +1,7 @@
 <template>
     <div class="dashboard">
         <Header :user="user"></Header>
-        <main>
+        <main class="h-md-100">
             <div class="container">
                 <div class="d-flex flex-row">
                     <div class="mb-3 col-12">
@@ -85,6 +85,7 @@ export default {
             return dirty || validated ? valid : null;
         },
         onSubmit: function(){
+            this.courseData.number = this.courseData.number.toUpperCase();
             app.instance.post('/api/courses',this.courseData).then(response=>{
                 this.$store.dispatch('userCourses');
             }).catch(error => {

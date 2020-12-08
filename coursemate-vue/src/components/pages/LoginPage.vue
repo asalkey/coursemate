@@ -3,7 +3,7 @@
         <div class="col-md-6 p-0 bg-indigo h-md-100">
             <div class="text-white d-md-flex align-items-center h-100 p-5 text-center justify-content-center">
                 <div class="logoarea pt-5 pb-5">
-                    <a class="navbar-brand" href="/" aria-label="Bootstrap"> <img src="https://image.flaticon.com/icons/svg/2232/2232688.svg" style="width:5%">Coursemate </a>
+                    <b-navbar-brand :to='{name: "home"}'>Coursemate</b-navbar-brand>
                     <img class="img-fluid d-none d-sm-none d-md-block d-lg-block" src="@/assets/images/2785837.png"/>
                 </div>
             </div>

@@ -6,8 +6,10 @@
                 <div class="col-6 tagline">
                     <h1> Study with <span>classmates</span></h1>
                     <p>Join in-person and online study groups for your classes.</p>
-                    <router-link :to='{name: "register"}' class="btn btn-style-1 btn-green"> join a study group </router-link>
+                    <span class="d-none d-sm-none d-md-block d-lg-block">
+                    <router-link :to='{name: "register"}' class="btn btn-style-1 btn-green mr-3"> join a study group </router-link>
                     <router-link :to='{name: "register"}' class="btn btn-style-1 btn-purple"> create a study group </router-link>
+                    </span>
                 </div>
                 <div class="col-6">
                     <img class="img-fluid d-none d-sm-none d-md-block d-lg-block" src="@/assets/images/Slice.png" alt="" title=""/>

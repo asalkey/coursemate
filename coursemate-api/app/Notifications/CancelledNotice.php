@@ -41,7 +41,7 @@ class CancelledNotice extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->markdown('mail.canceled',['name'=>$this->name]);
+        return (new MailMessage)->markdown('mail.cancelled',['name'=>$this->name]);
     }
 
     /**

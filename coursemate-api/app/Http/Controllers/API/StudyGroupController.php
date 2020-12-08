@@ -33,10 +33,10 @@ class StudyGroupController extends Controller
            'notes' => 'required',
            'date' => 'required|date',
            'time' => 'required',
-           'link' => 'required_if:remote,true|url',
-           'address' => 'required_if:remote,false',
-           'city' => 'required_if:remote,false|nullable|alpha',
-           'state' => 'required_if:remote,false|nullable|min:2|alpha'
+           'link' => 'required_if:remote,==,true|nullable|url',
+           'address' => 'required_if:remote,==,false',
+           'city' => 'required_if:remote,==,false',
+           'state' => 'required_if:remote,==,false|nullable|min:2|alpha'
         ]);
 
         $studyGroup = StudyGroup::create($request->all());
