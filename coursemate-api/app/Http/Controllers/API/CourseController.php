@@ -45,7 +45,7 @@ class CourseController extends Controller
             return response()->json(['errors'=>$validator->messages()],422);
         }
 
-        $course = Course::firstOrNew(
+        $course = Course::firstOrCreate(
                     ['number' => $request->number],
                     ['school_id' => $request->user()->school_id
                   ]);

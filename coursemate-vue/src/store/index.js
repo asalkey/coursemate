@@ -95,6 +95,7 @@ export default new Vuex.Store({
         }
     },
     async userCourses({state,commit},payload){
+        console.log('hey');
         let response = await app.instance.get('/api/courses');
         commit("userCourses", response.data);
 
