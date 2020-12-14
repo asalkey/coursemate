@@ -34,9 +34,9 @@ class StudyGroupController extends Controller
            'date' => 'required|date',
            'time' => 'required',
            'link' => 'required_if:remote,==,true|nullable|url',
-           'address' => 'required_if:remote,==,false',
-           'city' => 'required_if:remote,==,false',
-           'state' => 'required_if:remote,==,false|nullable|min:2|alpha'
+           'address' => 'required_if:remote,false',
+           'city' => 'required_if:remote,false',
+           'state' => 'required_if:remote,false|nullable|min:2|alpha'
         ]);
 
         $studyGroup = StudyGroup::create($request->all());
@@ -104,9 +104,16 @@ class StudyGroupController extends Controller
     public function search(Request $request){
          return StudyGroup::with('users')
             ->where('course_id', '=', $request->course_id)
-            ->where(function ($query) use($request) {
-               $query->where('date', '=', $request->date)
-                     ->orWhere('time', '=', $request->time);
+            ->when($request->date, function ($query) use($request) {
+                $query->where('date', '=', $request->date);
+            })->when($request->time, function ($query) use($request) {
+                $query->where('time', '=', $request->time);
+            })->when($request->search, function ($query) use($request) {
+                $query->where('address', 'like', '%' . $request->search . '%')
+                ->orWhere('city', 'like', '%' . $request->search . '%')
+                ->orWhere('state', 'like', '%' . $request->search . '%')
+                ->orWhere('notes', 'like', '%' . $request->search . '%')
+                ->orWhere('description', 'like', '%' . $request->search . '%');
             })->get();
     }
 }

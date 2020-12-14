@@ -5,14 +5,12 @@
             <div class="container">
                 <div class="d-flex flex-row">
                     <div class="mb-3 col-12">
-                        <template v-if="userCourses.length > 0">
+                        <template v-if="userCourses && userCourses.length > 0">
                             <b-list-group>
                                   <li class="d-flex list-group-item justify-content-between lh-condensed"  v-for="userCourse in userCourses" v-bind:key="userCourse.id" >
-                                       <router-link tag="div" class="course-link" :to="{ name: 'showstudygroups', params: { id: userCourse.id }}">
-                                         <h6 class="my-0">{{userCourse.number}}</h6>
-                                      </router-link>
+                                      <h6 class="my-0" >{{userCourse.number}}</h6>
                                       <b-button-group>
-                                        <b-button><b-icon-eye ></b-icon-eye> View Study Groups</b-button>
+                                        <b-button :to="{ name: 'showstudygroups', params: { id: userCourse.id,course:userCourse.number }}"><b-icon-eye ></b-icon-eye> View Study Groups</b-button>
                                         <b-button @click='deleteCourse(userCourse.id)'> <b-icon-trash ></b-icon-trash> Remove Course</b-button>
                                       </b-button-group>
                                  </li>
@@ -114,13 +112,6 @@ export default {
 </script>
 
 <style>
-.my-0 {
-  cursor: pointer;
-}
-.my-0:hover {
-  color: blue;
-}
-
 .yeti svg{
     filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.4));
 }

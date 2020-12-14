@@ -5,10 +5,11 @@
             <div class="container d-flex justify-content-center">
                 <div class="col-6">
                     <ValidationObserver ref="form" v-slot="{ handleSubmit }">
-                        <form @submit.prevent="handleSubmit(onSubmit)">
+                        <form @submit.prevent="handleSubmit(onSubmit)" novalidate>
                             <div class="form-group">
                                  <ValidationProvider name="description" rules="required" v-slot="validationContext">
-                                    <b-form-input type="text" v-model="addData.description" placeholder="Exam 2 Help" :state="getValidationState(validationContext)"></b-form-input>
+                                    <b-form-input type="text" v-model="addData.description" placeholder="Description" :state="getValidationState(validationContext)"></b-form-input>
+                                    <small class="form-text text-muted">Describe what this study group is about i.e: Exam 2 help</small>
                                     <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
                                 </ValidationProvider>
                             </div>
@@ -31,6 +32,7 @@
                                 <div class="form-group">
                                     <ValidationProvider name="link" :rules="`${addData.remote ? 'required' : ''}`" v-slot="validationContext">
                                         <b-form-input type="url" v-model="addData.link" placeholder="zoom link" :state="getValidationState(validationContext)"></b-form-input>
+                                        <small class="form-text text-muted">Enter full url i.e: https://zoom.us/j/93981689902</small>
                                         <div class="invalid-feedback">{{ validationContext.errors[0] }}</div>
                                     </ValidationProvider>
                                 </div>
@@ -58,10 +60,11 @@
                             <div class="form-group">
                                 <ValidationProvider name="notes" rules="required" v-slot="validationContext">
                                     <b-form-textarea placeholder="notes" v-model="addData.notes" :state="getValidationState(validationContext)"></b-form-textarea>
+                                    <small class="form-text text-muted">Add anything additional you would like to add i.e: bring your books</small>
                                     <div class="invalid-feedback" >{{ validationContext.errors[0] }}</div>
                                 </ValidationProvider>
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Schedule</button>
                         </form>
                     </ValidationObserver>
                 </div>

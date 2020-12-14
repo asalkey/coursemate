@@ -12,7 +12,8 @@ export default new Vuex.Store({
     studygroups:null,
     schools:null,
     user:null,
-    allCourses:null
+    allCourses:null,
+    hasStudyGroups:null,
   },
   mutations: {
     setAuthenticated(state, payload) {
@@ -33,6 +34,9 @@ export default new Vuex.Store({
     userCourses(state, payload) {
       state.userCourses = payload;
     },
+    hasStudyGroups(state,payload){
+      state.hasStudyGroups = payload;
+    }
   },
   actions: {
     async login({dispatch},payload){
@@ -73,8 +77,15 @@ export default new Vuex.Store({
     setStudyGroups({commit},payload){
         app.instance.get('/api/studygroups/'  + payload.id).then(response=>{
             commit("setStudyGroups", response.data);
+
+            if(response.data.length > 0){
+                commit("hasStudyGroups", true);
+            }else{
+                commit("hasStudyGroups", false);
+            }
         }).catch(() => {
             commit("setStudyGroups", false);
+            commit("hasStudyGroups", false);
         });
     },
     async filterStudyGroup({commit},payload){
@@ -95,7 +106,6 @@ export default new Vuex.Store({
         }
     },
     async userCourses({state,commit},payload){
-        console.log('hey');
         let response = await app.instance.get('/api/courses');
         commit("userCourses", response.data);
 

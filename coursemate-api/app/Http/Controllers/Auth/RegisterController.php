@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\NewStudent;
+use Newsletter;
 
 class RegisterController extends Controller
 {
@@ -73,6 +74,7 @@ class RegisterController extends Controller
             'school_id' => $data['school_id'],
         ]);
 
+        Newsletter::subscribe($data['email']);
         $user->notify(new NewStudent($user->name));
 
         return $user;

@@ -20,11 +20,11 @@
                       <b-button variant="outline-primary" :to="{ name: 'addstudygroup', params: { id: this.$route.params.id }}">
                         <b-icon icon="plus-circle"></b-icon> Create a study group
                       </b-button>
-                      <span v-if="$route.name != 'showstudygroups'">
+                      <template v-if="$route.name != 'showstudygroups'">
                           <b-button variant="outline-primary" :to="{ name: 'showstudygroups', params: { id: this.$route.params.id }}">
-                            <b-icon icon="list-nested"></b-icon> Study Groups
+                            <b-icon icon="people"></b-icon> Study Groups
                           </b-button>
-                      </span>
+                      </template>
                     </b-button-group>
                   </div>
             </div>
