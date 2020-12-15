@@ -44,7 +44,7 @@
                                 </span>
                                 <span>
                                     <h1>uh oh .. nothing here</h1>
-                                    <button class="btn btn-danger"> add a study group</button>
+                                    <b-button class="btn btn-danger" :to="{ name: 'addstudygroup', params: { id: this.$route.params.id }}"> add a study group</b-button>
                                 </span>
                             </template>
                         </div>
@@ -77,7 +77,7 @@
                         </span>
                         <span>
                             <h1>uh oh .. there's no study groups</h1>
-                            <button class="btn btn-danger"> add a study group</button>
+                            <b-button class="btn btn-danger" :to="{ name: 'addstudygroup', params: { id: this.$route.params.id }}"> add a study group</b-button>
                          </span>
                     </template>
                 </div>

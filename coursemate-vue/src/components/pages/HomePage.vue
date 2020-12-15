@@ -5,7 +5,7 @@
 
                 <div class="col-6 tagline">
                     <h1> Study with <span>classmates</span></h1>
-                    <p>Schedule study groups for your classes. Meet with classmates in-person or online. </p>
+                    <p>Coursemate helps you find and schedule study groups. Meet with classmates in-person or online. </p>
                     <span class="d-none d-sm-none d-md-block d-lg-block">
                     <router-link :to='{name: "register"}' class="btn btn-style-1 btn-green mr-3"> join a study group </router-link>
                     <router-link :to='{name: "register"}' class="btn btn-style-1 btn-purple"> create a study group </router-link>
@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-5">
                     <div class="embed-responsive embed-responsive-16by9">
-                      <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" allowfullscreen></iframe>
+                      <iframe class="embed-responsive-item" src="https://youtu.be/5FqqiXmwzTY" allowfullscreen></iframe>
                     </div>
                 </div>
 
