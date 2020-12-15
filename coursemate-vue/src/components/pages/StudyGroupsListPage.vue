@@ -14,17 +14,17 @@
                                           <h5 class="mb-1">{{studygroup.description}}</h5>
                                           <button class="btn btn-outline-info" @click="toggleSubmit(studygroup.id,toggleType)">{{toggle(studygroup.id)}}</button>
                                         </div>
-                                        <template v-if="check == 'leave' || check == 'cancel'">
-                                            <p class="mb-1">
-                                              {{studygroup.notes}}
-                                            </p>
-                                           <template v-if="studygroup.remote" class="mb-1">
-                                               <b-icon icon="link-45deg" style="font-size: 5rem;" class="mr-2"></b-icon><a target="_blank" :href="studygroup.link">{{studygroup.link}}</a>
-                                            </template>
-                                            <template v-else>
-                                                <p><b-icon icon="geo-alt" style="font-size: 5rem;" class="mr-2"></b-icon> {{studygroup.address}} {{studygroup.city}}, {{studygroup.state}} </p>
-                                            </template>
+
+                                        <p class="mb-1">
+                                          {{studygroup.notes}}
+                                        </p>
+                                       <template v-if="studygroup.remote" class="mb-1">
+                                           <b-icon icon="link-45deg" style="font-size: 5rem;" class="mr-2"></b-icon><a target="_blank" :href="studygroup.link">{{studygroup.link}}</a>
                                         </template>
+                                        <template v-else>
+                                            <p><b-icon icon="geo-alt" style="font-size: 5rem;" class="mr-2"></b-icon> {{studygroup.address}} {{studygroup.city}}, {{studygroup.state}} </p>
+                                        </template>
+
                                         <div class="d-flex w-100 justify-content-between mt-3">
                                             <span>
                                                <b-badge variant="info">{{studygroup.users.length}}</b-badge><small> attending</small>
