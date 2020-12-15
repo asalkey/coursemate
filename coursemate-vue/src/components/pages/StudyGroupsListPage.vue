@@ -46,7 +46,7 @@
                                 </span>
                             </template>
                         </div>
-                        <div class="col-md-4 col-sm-12 order-md-2 order-sm-1">
+                        <div class="col-md-4 col-sm-12 order-md-2 order-sm-1 mb-2">
                             <h4> Filter </h4>
                             <form ref="filterForm" method="get" @submit.prevent="filterSubmit">
                                 <b-input-group class="mb-3">
